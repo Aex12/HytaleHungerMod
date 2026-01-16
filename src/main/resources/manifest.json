@@ -1,0 +1,7 @@
+{
+  "Group": "es.xcm",
+  "Name": "HytaleHungerMod",
+  "Version": "0.1.0",
+  "Main": "es.xcm.hunger.HytaleHungerMod",
+  "IncludesAssetPack": true
+}
