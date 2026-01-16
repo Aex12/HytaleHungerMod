@@ -24,11 +24,11 @@ public class HHMHud extends CustomUIHud {
         uiCommandBuilder.append("HUD/Hunger.ui");
     }
 
-    public void updateHungerLevel(int hungerLevel) {
+    public void updateHungerLevel(float hungerLevel) {
         UICommandBuilder uiCommandBuilder = new UICommandBuilder();
 
         Anchor anchor = new Anchor();
-        int fillWidth = hungerLevel * 3; // hunger bar is 300 pixels wide, while max hunger is 100
+        int fillWidth = (int) hungerLevel * 3; // hunger bar is 300 pixels wide, while max hunger is 100
         anchor.setWidth(Value.of(fillWidth));
         anchor.setHeight(Value.of(12));
         uiCommandBuilder.setObject("#Fill.Anchor", anchor);
@@ -36,7 +36,7 @@ public class HHMHud extends CustomUIHud {
         update(false, uiCommandBuilder);
     }
 
-    static public void updatePlayerHud(@NonNullDecl PlayerRef playerRef, int hungerLevel) {
+    static public void updatePlayerHud(@NonNullDecl PlayerRef playerRef, float hungerLevel) {
         HHMHud hud = hudMap.get(playerRef);
         if (hud == null) return;
         hud.updateHungerLevel(hungerLevel);

@@ -7,6 +7,8 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.damage.*;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.hypixel.hytale.server.core.util.Config;
+import es.xcm.hunger.HHMConfig;
 import es.xcm.hunger.ui.HHMHud;
 import es.xcm.hunger.components.HungerComponent;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
@@ -17,10 +19,30 @@ import javax.annotation.Nullable;
 // https://hytalemodding.dev/en/docs/guides/ecs/hytale-ecs
 public class StarveSystem extends DelayedEntitySystem<EntityStore> {
     private final ComponentType<EntityStore, HungerComponent> hungerComponentType;
+    private final float starvationRate;
+    private final float starvationDamage;
 
-    public StarveSystem(ComponentType<EntityStore, HungerComponent> hungerComponentType) {
-        super(5.0f); // Tick every 5 seconds
+    private StarveSystem(
+            ComponentType<EntityStore, HungerComponent> hungerComponentType,
+            float starvationInterval,
+            float starvationRate,
+            float starvationDamage
+    ) {
+        super(starvationInterval); // Tick every 5 seconds
         this.hungerComponentType = hungerComponentType;
+        this.starvationRate = starvationRate;
+        this.starvationDamage = starvationDamage;
+    }
+
+    public static StarveSystem create (
+            ComponentType<EntityStore, HungerComponent> hungerComponentType,
+            Config<HHMConfig> config
+    ) {
+        HHMConfig hhmConfig = config.get();
+        float starvationInterval = hhmConfig.getStarvationInterval();
+        float starvationRate = hhmConfig.getStarvationRate();
+        float starvationDamage = hhmConfig.getStarvationDamage();
+        return new StarveSystem(hungerComponentType, starvationInterval, starvationRate, starvationDamage);
     }
 
     @Nullable
@@ -54,11 +76,11 @@ public class StarveSystem extends DelayedEntitySystem<EntityStore> {
             return;
         }
 
-        hunger.starve(2);
+        hunger.starve(this.starvationRate);
 
         // Apply damage to the player due to starvation
         if (hunger.getHungerLevel() == 0) {
-            Damage damage = new Damage(Damage.NULL_SOURCE, DamageCause.OUT_OF_WORLD, 1.0f);
+            Damage damage = new Damage(Damage.NULL_SOURCE, DamageCause.OUT_OF_WORLD, this.starvationDamage);
             DamageSystems.executeDamage(ref, commandBuffer, damage);
         }
 

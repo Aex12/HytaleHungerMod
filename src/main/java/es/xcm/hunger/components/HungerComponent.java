@@ -6,15 +6,15 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import javax.annotation.Nullable;
 
 public class HungerComponent implements Component<EntityStore> {
-    private static int maxHungerLevel = 100;
-    private int hungerLevel;
+    private static float maxHungerLevel = 100.0f;
+    private float hungerLevel;
 
     public HungerComponent() {
-        this.hungerLevel = 100; // Max hunger level
+        this.hungerLevel = 100.0f; // Max hunger level
     }
 
-    public HungerComponent (int hungerLevel) {
-        assert hungerLevel >= 0 && hungerLevel <= maxHungerLevel;
+    public HungerComponent (float hungerLevel) {
+        assert hungerLevel >= 0.0f && hungerLevel <= maxHungerLevel;
         this.hungerLevel = hungerLevel;
     }
 
@@ -28,15 +28,15 @@ public class HungerComponent implements Component<EntityStore> {
         return new HungerComponent(this);
     }
 
-    public int getHungerLevel () {
+    public float getHungerLevel () {
         return this.hungerLevel;
     }
 
-    public void feed (int amount) {
+    public void feed (float amount) {
         this.hungerLevel = Math.min(this.hungerLevel + amount, maxHungerLevel);
     }
 
-    public void starve(int amount) {
-        this.hungerLevel = Math.max(this.hungerLevel - amount, 0);
+    public void starve(float amount) {
+        this.hungerLevel = Math.max(this.hungerLevel - amount, 0.0f);
     }
 }

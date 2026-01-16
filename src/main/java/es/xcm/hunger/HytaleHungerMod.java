@@ -6,24 +6,32 @@ import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.hypixel.hytale.server.core.util.Config;
 import es.xcm.hunger.components.HungerComponent;
 import es.xcm.hunger.events.HHMPlayerReadyEvent;
 import es.xcm.hunger.systems.StarveSystem;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 public class HytaleHungerMod extends JavaPlugin {
+    private Config<HHMConfig> config;
+
     public HytaleHungerMod(@NonNullDecl JavaPluginInit init) {
         super(init);
+        this.config = this.withConfig("HungerConfig", HHMConfig.CODEC);
     }
 
     @Override
     protected void setup () {
         super.setup();
 
+        this.config.save();
+
         ComponentType<EntityStore, HungerComponent> hungerComponentType = this.getEntityStoreRegistry()
                 .registerComponent(HungerComponent.class, HungerComponent::new);
 
-        this.getEntityStoreRegistry().registerSystem(new StarveSystem(hungerComponentType));
+        this.getEntityStoreRegistry().registerSystem(
+                StarveSystem.create(hungerComponentType, this.config)
+        );
 
         HHMPlayerReadyEvent playerReadyEvent = new HHMPlayerReadyEvent(hungerComponentType);
 
