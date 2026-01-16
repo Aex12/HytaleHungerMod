@@ -1,7 +1,9 @@
 package es.xcm.hunger.components;
 
 import com.hypixel.hytale.component.Component;
+import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import es.xcm.hunger.HytaleHungerMod;
 
 import javax.annotation.Nullable;
 
@@ -38,5 +40,9 @@ public class HungerComponent implements Component<EntityStore> {
 
     public void starve(float amount) {
         this.hungerLevel = Math.max(this.hungerLevel - amount, 0.0f);
+    }
+
+    public static ComponentType<EntityStore, HungerComponent> getComponentType() {
+        return HytaleHungerMod.get().getHungerComponentType();
     }
 }
