@@ -12,12 +12,12 @@ public class HHMConfig {
             .append(new KeyedCodec<>("StarvationPerTick", Codec.FLOAT),
                     ((config, value) -> config.starvationPerTick = value),
                     HHMConfig::getStarvationPerTick).add()
-            .append(new KeyedCodec<>("StarvationDamage", Codec.FLOAT),
-                    ((config, value) -> config.starvationDamage = value),
-                    HHMConfig::getStarvationDamage).add()
             .append(new KeyedCodec<>("StarvationStaminaModifier", Codec.FLOAT),
                     ((config, value) -> config.starvationStaminaModifier = value),
                     HHMConfig::getStarvationStaminaModifier).add()
+            .append(new KeyedCodec<>("StarvationDamage", Codec.FLOAT),
+                    ((config, value) -> config.starvationDamage = value),
+                    HHMConfig::getStarvationDamage).add()
             .append(new KeyedCodec<>("InteractionFeedT1Amount", Codec.FLOAT),
                     ((config, value) -> config.interactionFeedT1Amount = value),
                     HHMConfig::getInteractionFeedT1Amount).add()
@@ -31,8 +31,8 @@ public class HHMConfig {
 
     private float starvationTickRate = 2f;
     private float starvationPerTick = 0.125f;
+    private float starvationStaminaModifier = 0.175f;
     private float starvationDamage = 5.0f;
-    private float starvationStaminaModifier = 3f;
     private float interactionFeedT1Amount = 15.0f;
     private float interactionFeedT2Amount = 25.0f;
     private float interactionFeedT3Amount = 45.0f;
@@ -43,11 +43,11 @@ public class HHMConfig {
     public float getStarvationPerTick() {
         return starvationPerTick;
     }
-    public float getStarvationDamage() {
-        return starvationDamage;
-    }
     public float getStarvationStaminaModifier() {
         return starvationStaminaModifier;
+    }
+    public float getStarvationDamage() {
+        return starvationDamage;
     }
     public float getInteractionFeedT1Amount() {
         return interactionFeedT1Amount;
