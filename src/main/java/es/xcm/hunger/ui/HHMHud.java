@@ -7,12 +7,12 @@ import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
-import java.util.HashMap;
+import java.util.WeakHashMap;
 
 // https://www.youtube.com/watch?v=cha7YFULwxY&t=1330s
 
 public class HHMHud extends CustomUIHud {
-    static private final HashMap<PlayerRef, HHMHud> hudMap = new HashMap<>();
+    static private final WeakHashMap<PlayerRef, HHMHud> hudMap = new WeakHashMap<>();
     static public final String hudIdentifier = "es.xcm.hunger.hud.hunger";
 
     public HHMHud(@NonNullDecl PlayerRef playerRef) {
