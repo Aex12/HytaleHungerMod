@@ -86,7 +86,7 @@ public class StarveSystem extends DelayedEntitySystem<EntityStore> {
         // interpolate staminaModifier based on current stamina (from 0.0 to 10.0)
         // the lower the stamina, the higher the modifier
         // when stamina is at max, the modifier is 1.0f (no change)
-        float staminaModifier = 1.0f + ((10.0f - stamina) / 10.0f) * this.starvationStaminaModifier;
+        float staminaModifier = Math.max(1.0f, 1.0f + ((10.0f - stamina) / 10.0f) * this.starvationStaminaModifier - 1.0f);
         hunger.starve(this.starvationPerTick * staminaModifier);
 
         // Apply damage to the player due to starvation
