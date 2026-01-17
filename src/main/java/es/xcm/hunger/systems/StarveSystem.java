@@ -13,6 +13,7 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.Config;
 import es.xcm.hunger.HHMConfig;
+import es.xcm.hunger.HytaleHungerMod;
 import es.xcm.hunger.ui.HHMHud;
 import es.xcm.hunger.components.HungerComponent;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
@@ -21,32 +22,25 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class StarveSystem extends DelayedEntitySystem<EntityStore> {
-    private final ComponentType<EntityStore, HungerComponent> hungerComponentType;
     private final float starvationPerTick;
     private final float starvationDamage;
     private final float starvationStaminaModifier;
 
     private StarveSystem(
-        ComponentType<EntityStore, HungerComponent> hungerComponentType,
         float starvationTickRate,
         float starvationPerTick,
         float starvationDamage,
         float starvationStaminaModifier
     ) {
         super(starvationTickRate);
-        this.hungerComponentType = hungerComponentType;
         this.starvationPerTick = starvationPerTick;
         this.starvationDamage = starvationDamage;
         this.starvationStaminaModifier = starvationStaminaModifier;
     }
 
-    public static StarveSystem create (
-        ComponentType<EntityStore, HungerComponent> hungerComponentType,
-        Config<HHMConfig> config
-    ) {
-        HHMConfig conf = config.get();
+    public static StarveSystem create () {
+        HHMConfig conf = HytaleHungerMod.get().getConfig();
         return new StarveSystem(
-            hungerComponentType,
             conf.getStarvationTickRate(),
             conf.getStarvationPerTick(),
             conf.getStarvationDamage(),
@@ -64,7 +58,7 @@ public class StarveSystem extends DelayedEntitySystem<EntityStore> {
     @Override
     public Query<EntityStore> getQuery() {
         return Query.and(
-            this.hungerComponentType,
+            HungerComponent.getComponentType(),
             EntityStatMap.getComponentType(),
             Player.getComponentType(),
             Query.not(DeathComponent.getComponentType())
@@ -79,7 +73,7 @@ public class StarveSystem extends DelayedEntitySystem<EntityStore> {
         @NonNullDecl Store<EntityStore> store,
         @NonNullDecl CommandBuffer<EntityStore> commandBuffer
     ) {
-        HungerComponent hunger = archetypeChunk.getComponent(index, hungerComponentType);
+        HungerComponent hunger = archetypeChunk.getComponent(index, HungerComponent.getComponentType());
         EntityStatMap entityStatMap = archetypeChunk.getComponent(index, EntityStatMap.getComponentType());
         PlayerRef playerRef = archetypeChunk.getComponent(index, PlayerRef.getComponentType());
         Ref<EntityStore> ref = archetypeChunk.getReferenceTo(index);

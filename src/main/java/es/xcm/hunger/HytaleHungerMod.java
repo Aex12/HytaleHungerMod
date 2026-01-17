@@ -36,17 +36,13 @@ public class HytaleHungerMod extends JavaPlugin {
 
         this.config.save();
 
-        // register admin commands
-        this.getCommandRegistry().registerCommand(new SetHungerCommand());
-
         // register hunger component
         this.hungerComponentType = this.getEntityStoreRegistry()
                 .registerComponent(HungerComponent.class, HungerComponent::new);
 
         // register starve system
-        this.getEntityStoreRegistry().registerSystem(
-                StarveSystem.create(this.hungerComponentType, this.config)
-        );
+        final var entityStoreRegistry = this.getEntityStoreRegistry();
+        entityStoreRegistry.registerSystem(StarveSystem.create());
 
         // register feed interaction
         final var interactionRegistry = this.getCodecRegistry(Interaction.CODEC);
@@ -57,6 +53,9 @@ public class HytaleHungerMod extends JavaPlugin {
         // setup hunger component and hud on player join
         HHMPlayerReady playerReadyEvent = new HHMPlayerReady(this.hungerComponentType);
         this.getEventRegistry().registerGlobal(PlayerReadyEvent.class, playerReadyEvent::handle);
+
+        // register admin commands
+        this.getCommandRegistry().registerCommand(new SetHungerCommand());
     }
 
     public ComponentType<EntityStore, HungerComponent> getHungerComponentType() {
