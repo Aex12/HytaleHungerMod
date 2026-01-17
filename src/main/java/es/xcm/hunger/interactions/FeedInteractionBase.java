@@ -16,11 +16,6 @@ import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 class FeedInteractionBase extends SimpleInstantInteraction {
     protected float feedAmount;
 
-    protected FeedInteractionBase(float feedAmount) {
-        super();
-        this.feedAmount = feedAmount;
-    }
-
     @Override
     protected void firstRun(
             @NonNullDecl InteractionType interactionType,

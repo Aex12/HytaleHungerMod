@@ -63,6 +63,10 @@ public class HytaleHungerMod extends JavaPlugin {
         return this.hungerComponentType;
     }
 
+    public HHMConfig getConfig() {
+        return this.config.get();
+    }
+
     public static HytaleHungerMod get() {
         return instance;
     }
