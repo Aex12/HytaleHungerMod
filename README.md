@@ -2,11 +2,13 @@
 Introduces a Hunger system to Hytale, requiring players to manage their food intake to survive and thrive in the game world.
 
 ## Features
-- **Hunger Bar**: A visual representation of the player's hunger level displayed on the HUD
+- **Hunger Bar**: A visual representation of the player's hunger level displayed on the HUD 
+- **Hunger Depletion**: Hunger decreases over time, with the rate influenced by player stamina usage.
 - **Food Consumption**: Players can consume various food items to restore their hunger levels.
-- **Hunger Damage**: Players take damage over time when their hunger reaches zero.
-- **Stamina Interaction**: Hunger depletion rate is influenced by the player's stamina usage.
-- **Configurable Settings**: Customize hunger depletion rates, starvation interval, and food restoration values via a configuration file.
+- **Status effects**: When hunger drops below a certain threshold, players experience reduced movement speed and disabled sprint.
+- **Starvation Damage**: Players take damage over time when their hunger reaches zero.
+- **SFX and VFX**: Includes screen effects and sound effects when starving.
+- **Configurable Settings**: Customize hunger depletion rates, starvation interval, starvation damage, hungry threshold, and food restoration values via a configuration file.
 
 ## Balance
 Currently, the default configuration is pretty forgiving, if you want a more challenging experience, you may want to tweak the configuration file to increase the starvation rate and damage.
