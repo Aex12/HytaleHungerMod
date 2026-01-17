@@ -1,0 +1,29 @@
+{
+  "ApplicationEffects": {
+    "EntityBottomTint": "#121212",
+    "EntityTopTint": "#121212",
+    "EntityAnimationId": "Hurt",
+    "ScreenEffect": "ScreenEffects/Starving.png",
+    "HorizontalSpeedMultiplier": 0.7,
+    "WorldSoundEventId": "SFX_Effect_Poison_World",
+    "LocalSoundEventId": "SFX_Effect_Poison_Local",
+    "MovementEffects":{
+      "DisableSprint":true
+    }
+  },
+  "DamageCalculatorCooldown": 2,
+  "DamageCalculator": {
+    "BaseDamage": {
+      "Starvation": 0
+    }
+  },
+  "DamageEffects": {
+    "WorldSoundEventId": "SFX_Effect_Poison_World",
+    "PlayerSoundEventId": "SFX_Effect_Poison_Local"
+  },
+  "OverlapBehavior": "Overwrite",
+  "Debuff": true,
+  "StatusEffectIcon": "UI/Custom/HUD/Pataepollo.png",
+  "Infinite": false,
+  "Duration": 300
+}

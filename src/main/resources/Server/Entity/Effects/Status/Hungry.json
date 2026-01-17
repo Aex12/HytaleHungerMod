@@ -1,0 +1,13 @@
+{
+  "ApplicationEffects": {
+    "HorizontalSpeedMultiplier": 0.9,
+    "MovementEffects":{
+      "DisableSprint":true
+    }
+  },
+  "OverlapBehavior": "Overwrite",
+  "Debuff": true,
+  "StatusEffectIcon": "UI/Custom/HUD/Pataepollo.png",
+  "Infinite": false,
+  "Duration": 300
+}
