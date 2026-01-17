@@ -5,6 +5,9 @@ import com.hypixel.hytale.server.core.ui.Anchor;
 import com.hypixel.hytale.server.core.ui.Value;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
+import es.xcm.hunger.HytaleHungerMod;
+import es.xcm.hunger.config.HHMConfig;
+import es.xcm.hunger.config.HudPosition;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 import java.util.WeakHashMap;
@@ -22,7 +25,27 @@ public class HHMHud extends CustomUIHud {
 
     @Override
     protected void build(@NonNullDecl UICommandBuilder uiCommandBuilder) {
+        HHMConfig config = HytaleHungerMod.get().getConfig();
+        HudPosition hudPosition = config.getDefaultHudPosition();
         uiCommandBuilder.append("HUD/Hunger.ui");
+        updateHudPosition(uiCommandBuilder, hudPosition);
+    }
+
+    public void updateHudPosition(UICommandBuilder uiCommandBuilder, HudPosition hudPosition) {
+        Anchor anchor = new Anchor();
+        anchor.setWidth(Value.of(332));
+        anchor.setHeight(Value.of(20));
+
+        switch (hudPosition) {
+            case BottomLeft:
+                anchor.setBottom(Value.of(12));
+                anchor.setLeft(Value.of(12));
+            case AboveHotbarCentered:
+                anchor.setBottom(Value.of(138));
+                break;
+        }
+
+        uiCommandBuilder.setObject("#Container.Anchor", anchor);
     }
 
     public void updateHungerLevel(float hungerLevel) {

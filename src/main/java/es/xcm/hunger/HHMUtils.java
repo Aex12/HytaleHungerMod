@@ -3,6 +3,7 @@ package es.xcm.hunger;
 import com.hypixel.hytale.server.core.asset.type.entityeffect.config.EntityEffect;
 import com.hypixel.hytale.server.core.entity.effect.ActiveEntityEffect;
 import com.hypixel.hytale.server.core.modules.entity.damage.DamageCause;
+import es.xcm.hunger.config.HHMConfig;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 import java.lang.reflect.Field;

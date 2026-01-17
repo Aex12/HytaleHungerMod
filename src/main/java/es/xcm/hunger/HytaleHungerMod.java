@@ -10,6 +10,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.Config;
 import es.xcm.hunger.commands.SetHungerCommand;
 import es.xcm.hunger.components.HungerComponent;
+import es.xcm.hunger.config.HHMConfig;
 import es.xcm.hunger.events.HHMPlayerReady;
 import es.xcm.hunger.interactions.FeedInteractionT1;
 import es.xcm.hunger.interactions.FeedInteractionT2;
