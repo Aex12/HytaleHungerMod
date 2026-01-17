@@ -28,6 +28,7 @@ This mod will create a configuration file under `mods/es.xcm_HytaleHungerMod/Hun
 - `StarvationPerTick`: How much hunger is lost every tick (as defined by StarvationTickRate).
 - `StarvationStaminaModifier`: How much stamina affects starvation. The modifier is added to the StarvationPerTick when stamina is below its max value. Currently it interpolates the value depending in how much stamina you've used.
 - `StarvationDamage`: How much damage is taken every tick (as defined by StarvationTickRate) when starving.
+- `HungryThreshold`: When hunger drops below this value, the player will receive the hungry status effects (slower movement speed and disabled sprint).
 - `InteractionFeedT1Amount`: How much hunger is restored when consuming a Tier 1 food item.
 - `InteractionFeedT2Amount`: How much hunger is restored when consuming a Tier 2 food item.
 - `InteractionFeedT3Amount`: How much hunger is restored when consuming a Tier 3 food item.
