@@ -18,8 +18,8 @@ public class HHMConfig {
 
             .build();
 
-    private float starvationTickRate = 2.0f;
-    private float starvationPerTick = 0.25f;
+    private float starvationTickRate = 2f;
+    private float starvationPerTick = 0.125f;
     private float starvationDamage = 5.0f;
 
     public float getStarvationTickRate() {
