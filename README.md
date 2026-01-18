@@ -53,6 +53,7 @@ The result is in minutes.
 - bird3681: For his [How to use death event](https://discord.com/channels/1440173445039132724/1460714920361332789) guide on the HytaleModding discord.
 - [HytaleModding](https://hytalemodding.dev/): For providing valuable resources for Hytale modding.
 - [Santoniche](https://opengameart.org/users/santoniche): For the [chicken leg icon](https://opengameart.org/content/chicken-0) used in the HUD.
+- @jezebelhunter at discord: For helping me debug issues with the multiplayer functionality.
 - To all the helpful people in both Hytale and HytaleModding discords
 
 This project could not have been possible without the shared effort of the Hytale modding community!
