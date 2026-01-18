@@ -6,6 +6,8 @@ import com.hypixel.hytale.server.core.ui.Value;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import es.xcm.hunger.HytaleHungerMod;
+import es.xcm.hunger.compat.hud.CompatHUD;
+import es.xcm.hunger.components.HungerComponent;
 import es.xcm.hunger.config.HHMConfig;
 import es.xcm.hunger.config.HudPosition;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
@@ -17,9 +19,11 @@ import java.util.WeakHashMap;
 public class HHMHud extends CustomUIHud {
     static private final WeakHashMap<PlayerRef, HHMHud> hudMap = new WeakHashMap<>();
     static public final String hudIdentifier = "es.xcm.hunger.hud.hunger";
+    private float hungerLevel;
 
-    public HHMHud(@NonNullDecl PlayerRef playerRef) {
+    public HHMHud(@NonNullDecl PlayerRef playerRef, float hungerLevel) {
         super(playerRef);
+        this.hungerLevel = hungerLevel;
         hudMap.put(playerRef, this);
     }
 
@@ -29,9 +33,10 @@ public class HHMHud extends CustomUIHud {
         HudPosition hudPosition = config.getDefaultHudPosition();
         uiCommandBuilder.append("HUD/Hunger.ui");
         updateHudPosition(uiCommandBuilder, hudPosition);
+        updateHungerLevel(uiCommandBuilder, this.hungerLevel);
     }
 
-    public void updateHudPosition(UICommandBuilder uiCommandBuilder, HudPosition hudPosition) {
+    protected void updateHudPosition(UICommandBuilder uiCommandBuilder, HudPosition hudPosition) {
         Anchor anchor = new Anchor();
         anchor.setWidth(Value.of(332));
         anchor.setHeight(Value.of(20));
@@ -46,24 +51,23 @@ public class HHMHud extends CustomUIHud {
                 break;
         }
 
-        uiCommandBuilder.setObject("#Container.Anchor", anchor);
+        uiCommandBuilder.setObject("#HHMContainer.Anchor", anchor);
     }
 
-    public void updateHungerLevel(float hungerLevel) {
-        UICommandBuilder uiCommandBuilder = new UICommandBuilder();
-
+    protected void updateHungerLevel(UICommandBuilder uiCommandBuilder, float hungerLevel) {
+        this.hungerLevel = hungerLevel;
         Anchor anchor = new Anchor();
         int fillWidth = (int) hungerLevel * 3; // hunger bar is 300 pixels wide, while max hunger is 100
         anchor.setWidth(Value.of(fillWidth));
         anchor.setHeight(Value.of(12));
-        uiCommandBuilder.setObject("#Fill.Anchor", anchor);
-
-        update(false, uiCommandBuilder);
+        uiCommandBuilder.setObject("#HHMFill.Anchor", anchor);
     }
 
     static public void updatePlayerHungerLevel(@NonNullDecl PlayerRef playerRef, float hungerLevel) {
         HHMHud hud = hudMap.get(playerRef);
         if (hud == null) return;
-        hud.updateHungerLevel(hungerLevel);
+        UICommandBuilder uiCommandBuilder = new UICommandBuilder();
+        hud.updateHungerLevel(uiCommandBuilder, hungerLevel);
+        hud.update(false, uiCommandBuilder);
     }
 }
