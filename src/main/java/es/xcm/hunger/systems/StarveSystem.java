@@ -3,6 +3,7 @@ package es.xcm.hunger.systems;
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.tick.DelayedEntitySystem;
+import com.hypixel.hytale.component.system.tick.EntityTickingSystem;
 import com.hypixel.hytale.server.core.asset.type.entityeffect.config.EntityEffect;
 import com.hypixel.hytale.server.core.entity.effect.ActiveEntityEffect;
 import com.hypixel.hytale.server.core.entity.effect.EffectControllerComponent;
@@ -24,7 +25,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 
-public class StarveSystem extends DelayedEntitySystem<EntityStore> {
+public class StarveSystem extends EntityTickingSystem<EntityStore> {
+    private final float starvationTickRate;
     private final float starvationPerTick;
     private final float starvationDamage;
     private final float starvationStaminaModifier;
@@ -37,7 +39,7 @@ public class StarveSystem extends DelayedEntitySystem<EntityStore> {
         float starvationStaminaModifier,
         float hungryThreshold
     ) {
-        super(starvationTickRate);
+        this.starvationTickRate = starvationTickRate;
         this.starvationPerTick = starvationPerTick;
         this.starvationDamage = starvationDamage;
         this.starvationStaminaModifier = starvationStaminaModifier;
@@ -82,11 +84,15 @@ public class StarveSystem extends DelayedEntitySystem<EntityStore> {
         @NonNullDecl CommandBuffer<EntityStore> commandBuffer
     ) {
         HungerComponent hunger = archetypeChunk.getComponent(index, HungerComponent.getComponentType());
+        if (hunger == null) return;
+
+        hunger.addElapsedTime(dt);
+        if (hunger.getElapsedTime() < this.starvationTickRate) return;
+        hunger.resetElapsedTime();
+
         EntityStatMap entityStatMap = archetypeChunk.getComponent(index, EntityStatMap.getComponentType());
         PlayerRef playerRef = archetypeChunk.getComponent(index, PlayerRef.getComponentType());
-        Ref<EntityStore> ref = archetypeChunk.getReferenceTo(index);
-
-        if (hunger == null || entityStatMap == null || playerRef == null) {
+        if (entityStatMap == null || playerRef == null) {
             return;
         }
 
@@ -95,6 +101,7 @@ public class StarveSystem extends DelayedEntitySystem<EntityStore> {
         hunger.starve(this.starvationPerTick + staminaModifier);
 
         float hungerLevel = hunger.getHungerLevel();
+        Ref<EntityStore> ref = archetypeChunk.getReferenceTo(index);
 
         // Apply hungry effect when hunger level is below 20
         if (hungerLevel != 0 && hungerLevel < this.hungryThreshold) {
@@ -119,7 +126,7 @@ public class StarveSystem extends DelayedEntitySystem<EntityStore> {
              DamageSystems.executeDamage(ref, commandBuffer, damage);
         }
 
-        HHMHud.updatePlayerHungerLevel(playerRef, hunger.getHungerLevel());
+        HHMHud.updatePlayerHungerLevel(playerRef, hungerLevel);
     }
 
     public static boolean shouldRemoveEffectOnStarvation (ActiveEntityEffect effect) {

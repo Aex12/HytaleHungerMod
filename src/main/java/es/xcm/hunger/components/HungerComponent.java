@@ -18,6 +18,7 @@ public class HungerComponent implements Component<EntityStore> {
             .build();
 
     public static final float maxHungerLevel = 100.0f;
+    private float elapsedTime = 0.0f;
     private float hungerLevel;
 
     public HungerComponent() {
@@ -31,6 +32,7 @@ public class HungerComponent implements Component<EntityStore> {
 
     public HungerComponent (HungerComponent other) {
         this.hungerLevel = other.hungerLevel;
+        this.elapsedTime = other.elapsedTime;
     }
 
     @Nullable
@@ -39,18 +41,25 @@ public class HungerComponent implements Component<EntityStore> {
         return new HungerComponent(this);
     }
 
+    public float getElapsedTime () {
+        return this.elapsedTime;
+    }
+    public void addElapsedTime (float deltaTime) {
+        this.elapsedTime += deltaTime;
+    }
+    public void resetElapsedTime () {
+        this.elapsedTime = 0.0f;
+    }
+
     public float getHungerLevel () {
         return this.hungerLevel;
     }
-
     public void setHungerLevel (float hungerLevel) {
         this.hungerLevel = Math.max(0.0f, Math.min(hungerLevel, maxHungerLevel));
     }
-
     public void feed (float amount) {
         this.hungerLevel = Math.min(this.hungerLevel + amount, maxHungerLevel);
     }
-
     public void starve(float amount) {
         this.hungerLevel = Math.max(this.hungerLevel - amount, 0.0f);
     }
