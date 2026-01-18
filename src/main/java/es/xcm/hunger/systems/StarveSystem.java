@@ -2,7 +2,6 @@ package es.xcm.hunger.systems;
 
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
-import com.hypixel.hytale.component.system.tick.DelayedEntitySystem;
 import com.hypixel.hytale.component.system.tick.EntityTickingSystem;
 import com.hypixel.hytale.server.core.asset.type.entityeffect.config.EntityEffect;
 import com.hypixel.hytale.server.core.entity.effect.ActiveEntityEffect;
@@ -23,7 +22,6 @@ import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Arrays;
 
 public class StarveSystem extends EntityTickingSystem<EntityStore> {
     private final float starvationTickRate;
@@ -84,20 +82,16 @@ public class StarveSystem extends EntityTickingSystem<EntityStore> {
         @NonNullDecl CommandBuffer<EntityStore> commandBuffer
     ) {
         HungerComponent hunger = archetypeChunk.getComponent(index, HungerComponent.getComponentType());
-        if (hunger == null) return;
+        EntityStatMap entityStatMap = archetypeChunk.getComponent(index, EntityStatMap.getComponentType());
+        if (hunger == null || entityStatMap == null) return;
 
+        hunger.setStaminaSeen(getStaminaValue(entityStatMap));
         hunger.addElapsedTime(dt);
         if (hunger.getElapsedTime() < this.starvationTickRate) return;
         hunger.resetElapsedTime();
 
-        EntityStatMap entityStatMap = archetypeChunk.getComponent(index, EntityStatMap.getComponentType());
-        PlayerRef playerRef = archetypeChunk.getComponent(index, PlayerRef.getComponentType());
-        if (entityStatMap == null || playerRef == null) {
-            return;
-        }
-
-        float stamina = getStaminaValue(entityStatMap);
-        float staminaModifier = ((10.0f - stamina) / 10.0f) * this.starvationStaminaModifier;
+        float lowestStaminaSeen = hunger.getAndResetLowestStaminaSeen();
+        float staminaModifier = ((10.0f - lowestStaminaSeen) / 10.0f) * this.starvationStaminaModifier;
         hunger.starve(this.starvationPerTick + staminaModifier);
 
         float hungerLevel = hunger.getHungerLevel();
@@ -126,6 +120,8 @@ public class StarveSystem extends EntityTickingSystem<EntityStore> {
              DamageSystems.executeDamage(ref, commandBuffer, damage);
         }
 
+        PlayerRef playerRef = archetypeChunk.getComponent(index, PlayerRef.getComponentType());
+        if (playerRef == null) return;
         HHMHud.updatePlayerHungerLevel(playerRef, hungerLevel);
     }
 
@@ -139,6 +135,6 @@ public class StarveSystem extends EntityTickingSystem<EntityStore> {
         final int staminaRef = DefaultEntityStatTypes.getStamina();
         final EntityStatValue statValue = entityStatMap.get(staminaRef);
         if (statValue == null) return 10.0f; // Default stamina (max) value if not found
-        return Math.max(statValue.get(), 0.0f); // for the purpose of the mod, we don't want negative stamina.
+        return statValue.get();
     }
 }

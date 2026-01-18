@@ -19,6 +19,7 @@ public class HungerComponent implements Component<EntityStore> {
 
     public static final float maxHungerLevel = 100.0f;
     private float elapsedTime = 0.0f;
+    private float lowestStaminaSeen = 10.0f;
     private float hungerLevel;
 
     public HungerComponent() {
@@ -33,6 +34,7 @@ public class HungerComponent implements Component<EntityStore> {
     public HungerComponent (HungerComponent other) {
         this.hungerLevel = other.hungerLevel;
         this.elapsedTime = other.elapsedTime;
+        this.lowestStaminaSeen = other.lowestStaminaSeen;
     }
 
     @Nullable
@@ -49,6 +51,16 @@ public class HungerComponent implements Component<EntityStore> {
     }
     public void resetElapsedTime () {
         this.elapsedTime = 0.0f;
+    }
+
+    public float getAndResetLowestStaminaSeen() {
+        float lowestStaminaSeen = this.lowestStaminaSeen;
+        this.lowestStaminaSeen = 10.0f;
+        return lowestStaminaSeen;
+    }
+    public void setStaminaSeen(float stamina) {
+        if (stamina > this.lowestStaminaSeen) return;
+        this.lowestStaminaSeen = stamina;
     }
 
     public float getHungerLevel () {
