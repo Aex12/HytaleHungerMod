@@ -6,6 +6,7 @@ import com.hypixel.hytale.component.system.tick.EntityTickingSystem;
 import com.hypixel.hytale.server.core.asset.type.entityeffect.config.EntityEffect;
 import com.hypixel.hytale.server.core.entity.effect.ActiveEntityEffect;
 import com.hypixel.hytale.server.core.entity.effect.EffectControllerComponent;
+import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.component.Invulnerable;
 import com.hypixel.hytale.server.core.modules.entity.damage.*;
 import com.hypixel.hytale.server.core.modules.entitystats.EntityStatMap;
@@ -67,6 +68,7 @@ public class StarveSystem extends EntityTickingSystem<EntityStore> {
         return Query.and(
             HungerComponent.getComponentType(),
             EntityStatMap.getComponentType(),
+            Player.getComponentType(),
             PlayerRef.getComponentType(),
             Query.not(DeathComponent.getComponentType()),
             Query.not(Invulnerable.getComponentType())
