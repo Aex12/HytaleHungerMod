@@ -1,6 +1,8 @@
 # Hytale Hunger Mod
 Introduces a Hunger system to Hytale, requiring players to manage their food intake to survive and thrive in the game world.
 
+Designed with maximum compatibility and performance in mind.
+
 ## Features
 - **Hunger Bar**: A visual representation of the player's hunger level displayed on the HUD 
 - **Hunger Depletion**: Hunger decreases over time, with the rate influenced by player stamina usage.
@@ -17,10 +19,12 @@ Currently, the default configuration is pretty forgiving, if you want a more cha
 With the default configuration, you'll go from max hunger (100) to starvation (0) in about 27 minutes of real-life time. If you're running all the time, it may take around 15 minutes.
 
 ## Compatibility
+This mod have been designed with compatibility in mind, ensuring it works well alongside other mods, including HUD, food and safe zone mods.
 - If you use other HUD mods, make sure to use the [MultipleHUD](https://www.curseforge.com/hytale/mods/multiplehud) mod.
   The other HUD mods that you use must support it too.
-- This mod is compatible with both single-player and multiplayer servers.
-- This mod is compatible with most custom food items, as long as they use the standard food consume interaction.
+- This mod is works in both single-player worlds and multiplayer servers.
+- This mod is compatible with most custom food items, as long as they use the Template_Food and don't override the default consume food interaction, which most food mod doesnt.
+- Safe Areas defined by other plugins will pause hunger depletion as long as the mod that defines it uses the `Invulnerable` component, which most mods use.
 - This mod modifies the `Server.Item.Interactions.Consumables.Consume_Charge_Food_T*.json` assets, so it won't be compatible with other mods that modify that asset.
 
 ## Configuration
@@ -42,6 +46,17 @@ You can use the following formula to calculate how long it takes to starve from 
 (100/(StarvationPerTick/StarvationTickRate)/60
 ```
 The result is in minutes.
+
+## Performance
+This mod is optimized for performance in high pop servers, ensuring minimal impact on TPS.
+It achieves so by:
+- Ensure that hunger updates are distributed evenly across multiple ticks
+- Hunger ticks only apply to elegible players (Not dead, not in safe zone, not in creative, spawned in a world)
+- Use events whenever possible instead of polling
+- Use partial UI updates (Please note some other popular HUD mods such as EyeSpy and RPGLeveling forces full UI updates for all HUD mods)
+
+In high pop servers its recommended that the `StarvationTickRate` is set to at least 2 seconds (default). Setting it to a lower value may result in performance issues.
+
 ## Special thanks
 - [trouble-dev](https://github.com/trouble-dev): For his [UI guides](https://www.youtube.com/watch?v=cha7YFULwxY) and [noels-whitelist-manager](https://github.com/trouble-dev/noels-whitelist-manager) plugin, which I used as a reference for updating UI elements.
 - [Darkhax](https://github.com/Darkhax): For his [Spellbook](https://github.com/Hytale-Mods/Spellbook) mod that I used as reference for creating new interactions
