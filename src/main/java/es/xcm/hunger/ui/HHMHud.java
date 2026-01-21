@@ -1,11 +1,15 @@
 package es.xcm.hunger.ui;
 
+import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.protocol.GameMode;
+import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.entity.entities.player.hud.CustomUIHud;
 import com.hypixel.hytale.server.core.ui.Anchor;
 import com.hypixel.hytale.server.core.ui.Value;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import es.xcm.hunger.HytaleHungerMod;
 import es.xcm.hunger.compat.hud.CompatHUD;
 import es.xcm.hunger.components.HungerComponent;
@@ -88,5 +92,15 @@ public class HHMHud extends CustomUIHud {
         UICommandBuilder uiCommandBuilder = new UICommandBuilder();
         hud.updateGameMode(uiCommandBuilder, gameMode);
         hud.update(false, uiCommandBuilder);
+    }
+    static public void createPlayerHud(
+        @NonNullDecl Store<EntityStore> store,
+        @NonNullDecl Ref<EntityStore> ref,
+        @NonNullDecl PlayerRef playerRef,
+        @NonNullDecl Player player
+    ) {
+        HungerComponent hunger = store.ensureAndGetComponent(ref, HungerComponent.getComponentType());
+        HHMHud hud = new HHMHud(playerRef, player.getGameMode(), hunger.getHungerLevel());
+        CompatHUD.get().setCustomHud(player, playerRef, hudIdentifier, hud);
     }
 }

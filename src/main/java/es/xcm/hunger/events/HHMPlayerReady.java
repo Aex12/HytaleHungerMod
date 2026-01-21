@@ -21,12 +21,7 @@ public class HHMPlayerReady {
         world.execute(() -> {
             PlayerRef playerRef = store.getComponent(ref, PlayerRef.getComponentType());
             if (playerRef == null) return;
-
-            HungerComponent hungerComponent = store.ensureAndGetComponent(ref, HungerComponent.getComponentType());
-            float hungerLevel = hungerComponent.getHungerLevel();
-
-            HHMHud hud = new HHMHud(playerRef, player.getGameMode(), hungerLevel);
-            CompatHUD.get().setCustomHud(player, playerRef, HHMHud.hudIdentifier, hud);
+            HHMHud.createPlayerHud(store, ref, playerRef, player);
         });
     }
 }
