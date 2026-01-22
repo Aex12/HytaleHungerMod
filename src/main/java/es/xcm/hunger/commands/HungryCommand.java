@@ -21,6 +21,7 @@ public class HungryCommand extends AbstractPlayerCommand {
         this.addSubCommand(new SetHungerCommand());
         this.addSubCommand(new HungryHideCommand());
         this.addSubCommand(new HungryShowCommand());
+        this.addSubCommand(new HungryPositionCommand());
         this.requirePermission(requiredPermission);
     }
 
@@ -30,6 +31,7 @@ public class HungryCommand extends AbstractPlayerCommand {
         /hunger - Show this help message.""";
     static String hideMessage = "/hunger hide - Hide the Hunger bar.";
     static String showMessage = "/hunger show - Show the Hunger bar.";
+    static String positionMessage = "/hunger position <position> - Sets the position of the Hunger bar.";
     static String helpMessageSetSelf = "/hunger set <hungerLevel> - Set your own hunger level (0-100).";
     static String helpMessageSetOther = "/hunger set <player> <hungerLevel> - Set another player's hunger level (0-100).";
 
@@ -52,6 +54,9 @@ public class HungryCommand extends AbstractPlayerCommand {
         }
         if (playerHasPermission.test(HungryShowCommand.requiredPermission)) {
             message.insert("\n").insert(showMessage);
+        }
+        if (playerHasPermission.test(HungryPositionCommand.requiredPermission)) {
+            message.insert("\n").insert(positionMessage);
         }
         if (playerHasPermission.test(SetHungerCommand.requiredPermission)) {
             message.insert("\n").insert(helpMessageSetSelf);

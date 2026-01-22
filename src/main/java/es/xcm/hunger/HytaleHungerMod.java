@@ -83,7 +83,8 @@ public class HytaleHungerMod extends JavaPlugin {
             final Set<String> singleplayerPermissions = Set.of(
                     HungryCommand.requiredPermission,
                     HungryHideCommand.requiredPermission,
-                    HungryShowCommand.requiredPermission
+                    HungryShowCommand.requiredPermission,
+                    HungryPositionCommand.requiredPermission
             );
             PermissionsModule.get().addGroupPermission("Adventure", singleplayerPermissions);
             PermissionsModule.get().addGroupPermission("Creative", singleplayerPermissions);
@@ -97,6 +98,9 @@ public class HytaleHungerMod extends JavaPlugin {
 
     public HHMConfig getConfig() {
         return this.config.get();
+    }
+    public void saveConfig() {
+        this.config.save();
     }
 
     public static HytaleHungerMod get() {

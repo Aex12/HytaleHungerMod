@@ -24,6 +24,7 @@ import java.util.WeakHashMap;
 public class HHMHud extends CustomUIHud {
     static private final WeakHashMap<PlayerRef, HHMHud> hudMap = new WeakHashMap<>();
     static public final String hudIdentifier = "es.xcm.hunger.hud.hunger";
+    private HudPosition hudPosition;
     private GameMode gameMode;
     private float hungerLevel;
     private boolean visible = true;
@@ -32,21 +33,22 @@ public class HHMHud extends CustomUIHud {
         super(playerRef);
         this.gameMode = gameMode;
         this.hungerLevel = hungerLevel;
+        HHMConfig config = HytaleHungerMod.get().getConfig();
+        this.hudPosition = config.getHudPosition();
         hudMap.put(playerRef, this);
     }
 
     @Override
     protected void build(@NonNullDecl UICommandBuilder uiCommandBuilder) {
-        HHMConfig config = HytaleHungerMod.get().getConfig();
-        HudPosition hudPosition = config.getHudPosition();
         uiCommandBuilder.append("Hungry/HUD/Hunger.ui");
-        updateHudPosition(uiCommandBuilder, hudPosition);
+        updateHudPosition(uiCommandBuilder, this.hudPosition);
         updateGameMode(uiCommandBuilder, this.gameMode);
         updateHungerLevel(uiCommandBuilder, this.hungerLevel);
         updateVisibility(uiCommandBuilder, this.visible);
     }
 
     protected void updateHudPosition(UICommandBuilder uiCommandBuilder, HudPosition hudPosition) {
+        this.hudPosition = hudPosition;
         Anchor anchor = new Anchor();
         anchor.setWidth(Value.of(332));
         anchor.setHeight(Value.of(20));
@@ -102,6 +104,13 @@ public class HHMHud extends CustomUIHud {
         if (hud == null) return;
         UICommandBuilder uiCommandBuilder = new UICommandBuilder();
         hud.updateVisibility(uiCommandBuilder, visible);
+        hud.update(false, uiCommandBuilder);
+    }
+    static public void updatePlayerHudPosition(@NonNullDecl PlayerRef playerRef, HudPosition hudPosition) {
+        HHMHud hud = hudMap.get(playerRef);
+        if (hud == null) return;
+        UICommandBuilder uiCommandBuilder = new UICommandBuilder();
+        hud.updateHudPosition(uiCommandBuilder, hudPosition);
         hud.update(false, uiCommandBuilder);
     }
 

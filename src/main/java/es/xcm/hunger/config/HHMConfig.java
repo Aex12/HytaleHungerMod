@@ -77,4 +77,7 @@ public class HHMConfig {
     public HudPosition getHudPosition() {
         return hudPosition;
     }
+    public void setHudPosition(HudPosition hudPosition) {
+        this.hudPosition = hudPosition;
+    }
 }
