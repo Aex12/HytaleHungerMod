@@ -51,14 +51,11 @@ public class HHMHud extends CustomUIHud {
         anchor.setWidth(Value.of(332));
         anchor.setHeight(Value.of(20));
 
-        switch (hudPosition) {
-            case BottomLeft:
-                anchor.setBottom(Value.of(12));
-                anchor.setLeft(Value.of(12));
-                break;
-            case AboveHotbarCentered:
-                anchor.setBottom(Value.of(138));
-                break;
+        if (hudPosition.left() != 0) {
+            anchor.setLeft(Value.of(hudPosition.left()));
+        }
+        if (hudPosition.bottom() != 0) {
+            anchor.setBottom(Value.of(hudPosition.bottom()));
         }
 
         uiCommandBuilder.setObject("#HHMContainer.Anchor", anchor);

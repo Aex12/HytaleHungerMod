@@ -4,6 +4,8 @@ import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 
+import java.util.Optional;
+
 public class HHMConfig {
     public static final BuilderCodec<HHMConfig> CODEC = BuilderCodec.builder(HHMConfig.class, HHMConfig::new)
             .append(new KeyedCodec<>("StarvationTickRate", Codec.FLOAT),
@@ -31,7 +33,10 @@ public class HHMConfig {
                     ((config, value) -> config.interactionFeedT3Amount = value),
                     HHMConfig::getInteractionFeedT3Amount).add()
             .append(new KeyedCodec<>("HudPosition", Codec.STRING),
-                    ((config, value) -> config.hudPosition = HudPosition.valueOf(value)),
+                    ((config, value) -> {
+                        config.hudPosition = Optional.ofNullable(HudPosition.valueOf(value))
+                                .orElse(HudPosition.pluginDefault());
+                    }),
                     ((config) -> config.getHudPosition().name())).add()
             .build();
 
@@ -43,7 +48,7 @@ public class HHMConfig {
     private float interactionFeedT1Amount = 15.0f;
     private float interactionFeedT2Amount = 25.0f;
     private float interactionFeedT3Amount = 45.0f;
-    private HudPosition hudPosition = HudPosition.AboveHotbarCentered;
+    private HudPosition hudPosition = HudPosition.pluginDefault();
 
     public float getStarvationTickRate() {
         return starvationTickRate;
