@@ -1,5 +1,6 @@
 package es.xcm.hunger;
 
+import com.hypixel.hytale.assetstore.event.LoadedAssetsEvent;
 import com.hypixel.hytale.common.plugin.PluginIdentifier;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.logger.HytaleLogger;
@@ -13,9 +14,12 @@ import com.hypixel.hytale.server.core.plugin.PluginBase;
 import com.hypixel.hytale.server.core.plugin.PluginManager;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.Config;
+import es.xcm.hunger.assets.FoodValue;
+import es.xcm.hunger.assets.HungryAssetRegistryLoader;
 import es.xcm.hunger.commands.*;
 import es.xcm.hunger.components.HungerComponent;
-import es.xcm.hunger.config.HHMConfig;
+import es.xcm.hunger.config.HHMHungerConfig;
+import es.xcm.hunger.config.HHMFoodValuesConfig;
 import es.xcm.hunger.events.GameModePacketWatcher;
 import es.xcm.hunger.events.HHMPlayerReady;
 import es.xcm.hunger.interactions.FeedInteractionT1;
@@ -32,21 +36,23 @@ public class HytaleHungerMod extends JavaPlugin {
     public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     private static HytaleHungerMod instance;
 
-    private final Config<HHMConfig> config;
+    private final Config<HHMHungerConfig> hungerConfig;
+    private final Config<HHMFoodValuesConfig> foodValuesConfig;
     private ComponentType<EntityStore, HungerComponent> hungerComponentType;
-
 
     public HytaleHungerMod(@NonNullDecl JavaPluginInit init) {
         super(init);
         instance = this;
-        this.config = this.withConfig("HungerConfig", HHMConfig.CODEC);
+        this.hungerConfig = this.withConfig("HungerConfig", HHMHungerConfig.CODEC);
+        this.foodValuesConfig = this.withConfig("FoodValuesConfig", HHMFoodValuesConfig.CODEC);
     }
 
     @Override
     protected void setup () {
         super.setup();
 
-        this.config.save();
+        this.hungerConfig.save();
+        this.foodValuesConfig.save();
 
         // register hunger component
         this.hungerComponentType = this.getEntityStoreRegistry()
@@ -65,6 +71,7 @@ public class HytaleHungerMod extends JavaPlugin {
 
         // setup hunger component and hud on player join
         this.getEventRegistry().registerGlobal(PlayerReadyEvent.class, HHMPlayerReady::handle);
+        this.getEventRegistry().register(LoadedAssetsEvent.class, FoodValue.class, FoodValue::onItemAssetLoad);
 
         // listen to gamemode changes
         PacketAdapters.registerOutbound(new GameModePacketWatcher());
@@ -96,11 +103,14 @@ public class HytaleHungerMod extends JavaPlugin {
         return this.hungerComponentType;
     }
 
-    public HHMConfig getConfig() {
-        return this.config.get();
+    public HHMHungerConfig getHungerConfig() {
+        return this.hungerConfig.get();
     }
-    public void saveConfig() {
-        this.config.save();
+    public void saveHungerConfig() {
+        this.hungerConfig.save();
+    }
+    public HHMFoodValuesConfig getFoodValuesConfig() {
+        return this.foodValuesConfig.get();
     }
 
     public static HytaleHungerMod get() {
@@ -109,5 +119,9 @@ public class HytaleHungerMod extends JavaPlugin {
 
     public static void logInfo(String message) {
         LOGGER.at(Level.INFO).log(message);
+    }
+
+    static {
+        HungryAssetRegistryLoader.registerAssets();
     }
 }

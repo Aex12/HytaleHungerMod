@@ -60,8 +60,8 @@ public class HungryPositionCommand extends CommandBase {
                 return;
             }
             HytaleHungerMod mod = HytaleHungerMod.get();
-            mod.getConfig().setHudPosition(hudPosition);
-            mod.saveConfig();
+            mod.getHungerConfig().setHudPosition(hudPosition);
+            mod.saveHungerConfig();
             for (World world : Universe.get().getWorlds().values()) {
                 world.execute(() -> {
                     world.getPlayerRefs().forEach((playerRef) -> {

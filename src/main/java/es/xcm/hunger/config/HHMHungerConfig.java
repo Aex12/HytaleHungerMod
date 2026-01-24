@@ -6,32 +6,32 @@ import com.hypixel.hytale.codec.builder.BuilderCodec;
 
 import java.util.Optional;
 
-public class HHMConfig {
-    public static final BuilderCodec<HHMConfig> CODEC = BuilderCodec.builder(HHMConfig.class, HHMConfig::new)
+public class HHMHungerConfig {
+    public static final BuilderCodec<HHMHungerConfig> CODEC = BuilderCodec.builder(HHMHungerConfig.class, HHMHungerConfig::new)
             .append(new KeyedCodec<>("StarvationTickRate", Codec.FLOAT),
                     ((config, value) -> config.starvationTickRate = value),
-                    HHMConfig::getStarvationTickRate).add()
+                    HHMHungerConfig::getStarvationTickRate).add()
             .append(new KeyedCodec<>("StarvationPerTick", Codec.FLOAT),
                     ((config, value) -> config.starvationPerTick = value),
-                    HHMConfig::getStarvationPerTick).add()
+                    HHMHungerConfig::getStarvationPerTick).add()
             .append(new KeyedCodec<>("StarvationStaminaModifier", Codec.FLOAT),
                     ((config, value) -> config.starvationStaminaModifier = value),
-                    HHMConfig::getStarvationStaminaModifier).add()
+                    HHMHungerConfig::getStarvationStaminaModifier).add()
             .append(new KeyedCodec<>("HungryThreshold", Codec.FLOAT),
                     ((config, value) -> config.hungryThreshold = value),
-                    HHMConfig::getHungryThreshold).add()
+                    HHMHungerConfig::getHungryThreshold).add()
             .append(new KeyedCodec<>("StarvationDamage", Codec.FLOAT),
                     ((config, value) -> config.starvationDamage = value),
-                    HHMConfig::getStarvationDamage).add()
+                    HHMHungerConfig::getStarvationDamage).add()
             .append(new KeyedCodec<>("InteractionFeedT1Amount", Codec.FLOAT),
                     ((config, value) -> config.interactionFeedT1Amount = value),
-                    HHMConfig::getInteractionFeedT1Amount).add()
+                    HHMHungerConfig::getInteractionFeedT1Amount).add()
             .append(new KeyedCodec<>("InteractionFeedT2Amount", Codec.FLOAT),
                     ((config, value) -> config.interactionFeedT2Amount = value),
-                    HHMConfig::getInteractionFeedT2Amount).add()
+                    HHMHungerConfig::getInteractionFeedT2Amount).add()
             .append(new KeyedCodec<>("InteractionFeedT3Amount", Codec.FLOAT),
                     ((config, value) -> config.interactionFeedT3Amount = value),
-                    HHMConfig::getInteractionFeedT3Amount).add()
+                    HHMHungerConfig::getInteractionFeedT3Amount).add()
             .append(new KeyedCodec<>("HudPosition", Codec.STRING),
                     ((config, value) -> {
                         config.hudPosition = Optional.ofNullable(HudPosition.valueOf(value))

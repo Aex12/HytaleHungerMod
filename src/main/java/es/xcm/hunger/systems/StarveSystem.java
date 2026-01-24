@@ -14,7 +14,7 @@ import com.hypixel.hytale.server.core.modules.entitystats.EntityStatValue;
 import com.hypixel.hytale.server.core.modules.entitystats.asset.DefaultEntityStatTypes;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import es.xcm.hunger.config.HHMConfig;
+import es.xcm.hunger.config.HHMHungerConfig;
 import es.xcm.hunger.HHMUtils;
 import es.xcm.hunger.HytaleHungerMod;
 import es.xcm.hunger.ui.HHMHud;
@@ -46,7 +46,7 @@ public class StarveSystem extends EntityTickingSystem<EntityStore> {
     }
 
     public static StarveSystem create () {
-        HHMConfig conf = HytaleHungerMod.get().getConfig();
+        HHMHungerConfig conf = HytaleHungerMod.get().getHungerConfig();
         return new StarveSystem(
             conf.getStarvationTickRate(),
             conf.getStarvationPerTick(),

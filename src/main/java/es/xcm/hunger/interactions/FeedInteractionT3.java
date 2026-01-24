@@ -9,6 +9,6 @@ public class FeedInteractionT3 extends FeedInteractionBase {
 
     public FeedInteractionT3() {
         super();
-        this.feedAmount = HytaleHungerMod.get().getConfig().getInteractionFeedT3Amount();
+        this.fallbackHungerRestoration = HytaleHungerMod.get().getHungerConfig().getInteractionFeedT3Amount();
     }
 }

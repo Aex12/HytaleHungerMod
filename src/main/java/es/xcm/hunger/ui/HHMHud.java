@@ -13,7 +13,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import es.xcm.hunger.HytaleHungerMod;
 import es.xcm.hunger.compat.hud.CompatHUD;
 import es.xcm.hunger.components.HungerComponent;
-import es.xcm.hunger.config.HHMConfig;
+import es.xcm.hunger.config.HHMHungerConfig;
 import es.xcm.hunger.config.HudPosition;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
@@ -33,7 +33,7 @@ public class HHMHud extends CustomUIHud {
         super(playerRef);
         this.gameMode = gameMode;
         this.hungerLevel = hungerLevel;
-        HHMConfig config = HytaleHungerMod.get().getConfig();
+        HHMHungerConfig config = HytaleHungerMod.get().getHungerConfig();
         this.hudPosition = config.getHudPosition();
         hudMap.put(playerRef, this);
     }

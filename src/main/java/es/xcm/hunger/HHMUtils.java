@@ -9,7 +9,7 @@ import com.hypixel.hytale.server.core.modules.entity.damage.DamageCause;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import es.xcm.hunger.components.HungerComponent;
-import es.xcm.hunger.config.HHMConfig;
+import es.xcm.hunger.config.HHMHungerConfig;
 import es.xcm.hunger.systems.StarveSystem;
 import es.xcm.hunger.ui.HHMHud;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
@@ -31,7 +31,7 @@ public class HHMUtils {
         if (starvingEntityEffect == null) {
             starvingEntityEffect = EntityEffect.getAssetMap().getAsset(starvingEntityEffectId);
             assert starvingEntityEffect != null;
-            HHMConfig conf = HytaleHungerMod.get().getConfig();
+            HHMHungerConfig conf = HytaleHungerMod.get().getHungerConfig();
             try {
                 // patch damageCalculator cooldown so that audio syncs properly with starvation tick rate (user configured)
                 Field f = EntityEffect.class.getDeclaredField("damageCalculatorCooldown");
