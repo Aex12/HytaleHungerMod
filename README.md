@@ -27,8 +27,8 @@ This mod have been designed with compatibility in mind, ensuring it works well a
 - Safe Areas defined by other plugins will pause hunger depletion as long as the mod that defines it uses the `Invulnerable` component, which most mods use.
 - This mod modifies the `Server.Item.Interactions.Consumables.Consume_Charge_Food` assets, so it won't be compatible with other mods that modify that assets.
 
-## Configuration
-This mod will create a configuration file under `mods/es.xcm_HytaleHungerMod/HungerConfig.json` after the first run. You can customize the following settings:
+## Hunger Configuration
+This mod will create a configuration file under `mods/es.xcm_HytaleHungerMod/HungerConfig.json` in your world folder after the first run. You can customize the following settings:
 
 | Key                         | Valid value                                                                                                                                         | Default Value          | Description                                                                                                                                                                                             |
 |-----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -49,6 +49,18 @@ You can use the following formula to calculate how long it takes to starve from 
 (100/(StarvationPerTick/StarvationTickRate)/60
 ```
 The result is in minutes.
+
+## Per Food Configuration
+You can customize how much hunger is restored by particular food items by modifying the JSON file under `mods/es.xcm_HytaleHungerMod/FoodValuesConfig.json` in your world folder.
+Here is an example on how the file should look like:
+```json
+{
+  "HungerRestoration": {
+    "Food_Pie_Meat": 60.0,
+    "Food_Pie_Apple": 50.0
+  }
+}
+```
 
 ## Commands
 This mod adds the following commands:
@@ -77,6 +89,31 @@ In high pop servers its recommended that the `StarvationTickRate` is set to at l
 ## Recommended mods
 - [Poisonous Raw Meat](https://www.curseforge.com/hytale/mods/poisonous-raw-meat)
 - [MultipleHUD](https://www.curseforge.com/hytale/mods/multiplehud)
+
+## Custom Assets (For mod authors)
+If you're developing your own food mod and want to define custom hunger restoration values for your food items, you can do so by defining a new asset this mod will add.
+
+First you should create a new JSON asset under `Server/Item/Hungry/FoodValues`. The name of the JSON file must be the same as the name of your food item asset.
+
+Then, you should define the following structure:
+```json
+{
+  "HungerRestoration": <number>
+}
+```
+Where `<number>` is the amount of hunger that will be restored when consuming that food item.
+
+This new asset support inheritance, so you can create a template asset for each one of your food tiers, and then have your food items inherit from one of them.
+
+To do so, simply create a new template asset, like `Server/Item/Hungry/FoodValues/Template_MyMod_T1.json`, define the `HungerRestoration` value, and then have your food items inherit from that template by specifying the parent:
+```json
+{
+  "Parent": "Template_MyMod_T1"
+}
+```
+
+Please note this is optional, and if you don't define a custom `FoodValue` asset for your food items, the mod will fallback to the default configuration value based on the food tier interaction used.
+
 
 ## Special thanks
 - [trouble-dev](https://github.com/trouble-dev): For his [UI guides](https://www.youtube.com/watch?v=cha7YFULwxY) and [noels-whitelist-manager](https://github.com/trouble-dev/noels-whitelist-manager) plugin, which I used as a reference for updating UI elements.
