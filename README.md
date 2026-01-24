@@ -22,10 +22,10 @@ With the default configuration, you'll go from max hunger (100) to starvation (0
 This mod have been designed with compatibility in mind, ensuring it works well alongside other mods, including HUD, food and safe zone mods.
 - If you use other HUD mods, make sure to use the [MultipleHUD](https://www.curseforge.com/hytale/mods/multiplehud) mod.
   The other HUD mods that you use must support it too.
-- This mod is works in both single-player worlds and multiplayer servers.
+- This mod works in both single-player worlds and multiplayer servers.
 - This mod is compatible with most custom food items, as long as they use the Template_Food and don't override the default consume food interaction, which most food mod doesnt.
 - Safe Areas defined by other plugins will pause hunger depletion as long as the mod that defines it uses the `Invulnerable` component, which most mods use.
-- This mod modifies the `Server.Item.Interactions.Consumables.Consume_Charge_Food_T*.json` assets, so it won't be compatible with other mods that modify that asset.
+- This mod modifies the `Server.Item.Interactions.Consumables.Consume_Charge_Food` assets, so it won't be compatible with other mods that modify that assets.
 
 ## Configuration
 This mod will create a configuration file under `mods/es.xcm_HytaleHungerMod/HungerConfig.json` after the first run. You can customize the following settings:
