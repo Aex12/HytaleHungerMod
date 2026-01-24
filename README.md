@@ -91,7 +91,11 @@ In high pop servers its recommended that the `StarvationTickRate` is set to at l
 - [MultipleHUD](https://www.curseforge.com/hytale/mods/multiplehud)
 
 ## Custom Assets (For mod authors)
-If you're developing your own food mod and want to define custom hunger restoration values for your food items, you can do so by defining a new asset this mod will add.
+If you're developing your own food mod and want to define custom hunger restoration values for your food items, you can do so by defining a new asset this mod will process.
+
+Please note this is optional, and if you don't define a custom `FoodValue` asset for your food items, the mod will fallback to the default configuration value based on the food tier interaction used.
+
+This asset was specifically designed to remain compatible with users who don’t use this mod. It can be safely included in your asset pack without affecting those who don’t have this mod installed.
 
 First you should create a new JSON asset under `Server/Item/Hungry/FoodValues`. The name of the JSON file must be the same as the name of your food item asset.
 
@@ -111,9 +115,6 @@ To do so, simply create a new template asset, like `Server/Item/Hungry/FoodValue
   "Parent": "Template_MyMod_T1"
 }
 ```
-
-Please note this is optional, and if you don't define a custom `FoodValue` asset for your food items, the mod will fallback to the default configuration value based on the food tier interaction used.
-
 
 ## Special thanks
 - [trouble-dev](https://github.com/trouble-dev): For his [UI guides](https://www.youtube.com/watch?v=cha7YFULwxY) and [noels-whitelist-manager](https://github.com/trouble-dev/noels-whitelist-manager) plugin, which I used as a reference for updating UI elements.
