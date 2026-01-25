@@ -6,6 +6,7 @@ Designed with maximum compatibility and performance in mind.
 ## Features
 - **Hunger Bar**: A visual representation of the player's hunger level displayed on the HUD 
 - **Hunger Depletion**: Hunger decreases over time, with the rate influenced by player actions such as stamina usage, or mining blocks.
+- **Hunger Saturation**: Some foods will saturate your hunger bar over the 100% value, providing a buffer before hunger starts depleting again.
 - **Food Consumption**: Players can consume various food items to restore their hunger levels.
 - **Status effects**: When hunger drops below a certain threshold, players experience reduced movement speed and disabled sprint.
 - **Starvation Damage**: Players take damage over time when their hunger reaches zero.
@@ -43,9 +44,6 @@ This mod will create a configuration file under `mods/es.xcm_HytaleHungerMod/Hun
 | `StarvationStaminaModifier` | Number                                                                                                                                              | 0.175                 | How much stamina affects starvation. The modifier is added to the StarvationPerTick when stamina is below its max value. Currently it interpolates the value depending in how much stamina you've used. |
 | `StarvationDamage`          | Number                                                                                                                                              | 5                     | How much damage is taken every tick (as defined by StarvationTickRate) when starving.                                                                                                                   |
 | `HungryThreshold`           | Number (0-100)                                                                                                                                      | 20                    | When hunger drops below this value, the player will receive the hungry status effects (slower movement speed and disabled sprint).                                                                      |
-| `InteractionFeedT1Amount`   | Number (0-100)                                                                                                                                      | 15                    | How much hunger is restored when consuming a Tier 1 food item.                                                                                                                                          |
-| `InteractionFeedT2Amount`   | Number (0-100)                                                                                                                                      | 25                    | How much hunger is restored when consuming a Tier 2 food item.                                                                                                                                          |
-| `InteractionFeedT3Amount`   | Number (0-100)                                                                                                                                      | 40                    | How much hunger is restored when consuming a Tier 3 food item.                                                                                                                                          |
 | `HudPosition`               | `BottomLeft` <br/> `AboveHotbarCentered` <br/> `AboveHotbarLeft` <br/> `BelowHotbarCentered` <br/> `BelowHotbarLeft` <br/> `Custom:<left>:<bottom>` | `AboveHotbarCentered` | The position where the HUD will be rendered. `Custom:12:12` is equivalent to `BottomLeft`.                                                                                                              |
 
 The max hunger is non-configurable and is set to 100. If you want to check the default values, you can find them in the [HHMConfig](src/main/java/es/xcm/hunger/HHMConfig.java) class. 
@@ -56,9 +54,17 @@ You can use the following formula to calculate how long it takes to starve from 
 ```
 The result is in minutes.
 
-## Per Food Configuration
+## Food Configuration
 You can customize how much hunger is restored by particular food items by modifying the JSON file under `mods/es.xcm_HytaleHungerMod/FoodValuesConfig.json` in your world folder.
-Here is an example on how the file should look like:
+
+| Key                   | Valid value          | Default Value | Description                                                    |
+|-----------------------|----------------------|---------------|----------------------------------------------------------------|
+| `T1HungerRestoration` | Number (0-100)       | 15            | How much hunger is restored when consuming a Tier 1 food item. |
+| `T2HungerRestoration` | Number (0-100)       | 25            | How much hunger is restored when consuming a Tier 2 food item. |
+| `T3HungerRestoration` | Number (0-100)       | 40            | How much hunger is restored when consuming a Tier 3 food item. |
+| `HungerRestoration`   | Map<String, Number>  | Empty         | Per item hunger restoration values.                            |
+
+Here is an example on how the `HungerRestoration` value should look like:
 ```json
 {
   "HungerRestoration": {
