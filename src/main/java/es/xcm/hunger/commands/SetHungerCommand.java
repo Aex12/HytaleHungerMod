@@ -12,6 +12,7 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import es.xcm.hunger.HHMUtils;
+import es.xcm.hunger.components.HungerComponent;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 public class SetHungerCommand extends AbstractPlayerCommand {
@@ -32,8 +33,8 @@ public class SetHungerCommand extends AbstractPlayerCommand {
         @NonNullDecl PlayerRef targetPlayerRef,
         float newHungerLevel
     ) {
-        if (newHungerLevel < 0 || newHungerLevel > 100) {
-            context.sendMessage(Message.raw("Hunger level must be between 0 and 100."));
+        if (newHungerLevel < 0 || newHungerLevel > HungerComponent.maxHungerLevel) {
+            context.sendMessage(Message.raw("Hunger level must be between 0 and " + HungerComponent.maxHungerLevel + "."));
             return;
         }
         HHMUtils.setPlayerHungerLevel(ref, store, newHungerLevel);

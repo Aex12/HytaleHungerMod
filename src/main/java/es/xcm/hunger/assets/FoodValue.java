@@ -21,6 +21,7 @@ public class FoodValue implements JsonAssetWithMap<String, DefaultAssetMap<Strin
 
     protected AssetExtraInfo.Data data;
     private Float hungerRestoration;
+    private Float maxHungerSaturation;
     private String id;
 
     @Override
@@ -30,21 +31,19 @@ public class FoodValue implements JsonAssetWithMap<String, DefaultAssetMap<Strin
     public Float getHungerRestoration () {
         return this.hungerRestoration;
     }
+    public Float getMaxHungerSaturation () {
+        return this.maxHungerSaturation;
+    }
 
-    public static float getHungerRestoration (String itemId, float fallbackValue) {
-        HHMFoodValuesConfig config = HytaleHungerMod.get().getFoodValuesConfig();
-        // first prefer user config
-        Float configValue = config.getFoodHungerRestoration(itemId);
-        if (configValue != null) {
-            return configValue;
-        }
-        // then asset (mod author) values
+    public static Float getHungerRestoration (String itemId) {
         FoodValue assetValues = ASSET_MAP.get(itemId);
-        if (assetValues != null && assetValues.hungerRestoration != null) {
-            return assetValues.hungerRestoration;
-        }
-        // finally the fallback value
-        return fallbackValue;
+        if (assetValues == null) return null;
+        return assetValues.hungerRestoration;
+    }
+    public static Float getMaxHungerSaturation (String itemId) {
+        FoodValue assetValues = ASSET_MAP.get(itemId);
+        if (assetValues == null) return null;
+        return assetValues.maxHungerSaturation;
     }
 
     public static void onItemAssetLoad(LoadedAssetsEvent<String, FoodValue, DefaultAssetMap<String, FoodValue>> event) {
@@ -61,11 +60,14 @@ public class FoodValue implements JsonAssetWithMap<String, DefaultAssetMap<Strin
                 (asset, data) -> asset.data = data,
                 asset -> asset.data
             )
-            .appendInherited(
-                new KeyedCodec<>("HungerRestoration", Codec.FLOAT),
-                    ((foodValue, value) -> foodValue.hungerRestoration = value),
-                    (foodValue) -> foodValue.hungerRestoration,
-                    (foodValue, parent) -> foodValue.hungerRestoration = parent.hungerRestoration).add();
+            .appendInherited(new KeyedCodec<>("HungerRestoration", Codec.FLOAT),
+                ((foodValue, value) -> foodValue.hungerRestoration = value),
+                (foodValue) -> foodValue.hungerRestoration,
+                (foodValue, parent) -> foodValue.hungerRestoration = parent.hungerRestoration).add()
+            .appendInherited(new KeyedCodec<>("MaxHungerSaturation", Codec.FLOAT),
+                ((foodValue, value) -> foodValue.maxHungerSaturation = value),
+                (foodValue) -> foodValue.maxHungerSaturation,
+                (foodValue, parent) -> foodValue.maxHungerSaturation = parent.maxHungerSaturation).add();
 
         CODEC = CODEC_BUILDER.build();
     }

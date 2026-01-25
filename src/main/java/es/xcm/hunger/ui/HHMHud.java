@@ -65,9 +65,13 @@ public class HHMHud extends CustomUIHud {
 
     protected void updateHungerLevel(UICommandBuilder uiCommandBuilder, float hungerLevel) {
         this.hungerLevel = hungerLevel;
-        float barValue = hungerLevel / HungerComponent.maxHungerLevel;
-        uiCommandBuilder.set("#HHMHungerBar.Value", barValue);
-        uiCommandBuilder.set("#HHMCreativeHungerBar.Value", barValue);
+        float hungerBarValue = Math.min(hungerLevel, 100.0f) / 100.0f;
+        float saturationBarValue = Math.max(hungerLevel - 100.0f, 0.0f) / 100.0f;
+
+        uiCommandBuilder.set("#HHMHungerBar.Value", hungerBarValue);
+        uiCommandBuilder.set("#HHMHungerBarEffect.Value", hungerBarValue);
+        uiCommandBuilder.set("#HHMCreativeHungerBar.Value", hungerBarValue);
+        uiCommandBuilder.set("#HHMHungerSaturationBar.Value", saturationBarValue);
     }
 
     protected void updateGameMode(UICommandBuilder uiCommandBuilder, GameMode gameMode) {
@@ -77,6 +81,7 @@ public class HHMHud extends CustomUIHud {
             : "Hungry/HUD/CreativeHungerIcon.png";
         uiCommandBuilder.set("#HHMIcon.Background", iconBackground);
         uiCommandBuilder.set("#HHMHungerBar.Visible", gameMode == GameMode.Adventure);
+        uiCommandBuilder.set("#HHMHungerSaturationBar.Visible", gameMode == GameMode.Adventure);
         uiCommandBuilder.set("#HHMCreativeHungerBar.Visible", gameMode == GameMode.Creative);
     }
 

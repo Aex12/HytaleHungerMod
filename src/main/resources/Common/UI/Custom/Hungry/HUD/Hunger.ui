@@ -1,4 +1,5 @@
 @HHMAdventureBarFill = "HungerBarFill.png";
+@HHMSaturationBarFill = "HungerBarSaturation.png";
 @HHMCreativeBarFill = "CreativeHungerBarFill.png";
 
 Group #HHMHUD {
@@ -20,16 +21,25 @@ Group #HHMHUD {
             ProgressBar #HHMHungerBar {
                 Anchor: (Width: 318, Height: 12);
                 BarTexturePath: @HHMAdventureBarFill;
+                Value: 1.0;
+                Visible: true;
+            }
+            ProgressBar #HHMHungerSaturationBar {
+                Anchor: (Width: 318, Height: 12);
+                BarTexturePath: @HHMSaturationBarFill;
+                Value: 0;
                 Visible: true;
             }
             ProgressBar #HHMCreativeHungerBar {
                 Anchor: (Width: 318, Height: 12);
                 BarTexturePath: @HHMCreativeBarFill;
+                Value: 1.0;
                 Visible: false;
             }
-            ProgressBar #HHMProgressBarEffect {
+            ProgressBar #HHMHungerBarEffect {
                 Anchor: (Width: 318, Height: 12);
                 BarTexturePath: "HungerBarEffect.png";
+                Value: 1.0;
             }
         }
     }

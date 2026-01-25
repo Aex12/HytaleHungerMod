@@ -17,7 +17,7 @@ public class HungerComponent implements Component<EntityStore> {
                     HungerComponent::getHungerLevel).add()
             .build();
 
-    public static final float maxHungerLevel = 100.0f;
+    public static final float maxHungerLevel = 200.0f;
     private float elapsedTime = 0.0f;
     private float lowestStaminaSeen = 10.0f;
     private int blockHits = 0;
