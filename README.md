@@ -13,6 +13,11 @@ Designed with maximum compatibility and performance in mind.
 - **Safe areas**: Hunger depletion is paused when players are in designated safe zones (provided by other plugins).
 - **Configurable Settings**: Customize hunger depletion rates, starvation interval, starvation damage, hungry threshold, how much stamina usage and mining affects hunger, and food restoration values via a configuration file.
 
+## Actions affecting hunger
+- **Basal Metabolic Rate**: Hunger slowly depletes over time, even when the player is idle.
+- **Stamina usage**: The more stamina the player uses, the faster their hunger depletes. This includes sprinting, blocking, bashing, and charging attacks.
+- **Hitting blocks**: Each time the player hits a block, a small amount of hunger is depleted. Using better tools requires fewer hits to break a block, resulting in less hunger lost per block broken.
+
 ## Balance
 Currently, the default configuration is pretty forgiving, if you want a more challenging experience, you may want to tweak the configuration file to increase the starvation rate and damage.
 

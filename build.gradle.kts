@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "es.xcm"
-version = "0.1.11"
+version = "0.1.12"
 
 repositories {
     mavenCentral()
@@ -45,6 +45,7 @@ val generateManifest by tasks.registering {
               "Group": "${project.group}",
               "Name": "${rootProject.name}",
               "Version": "${project.version}",
+              "Website": "https://www.curseforge.com/hytale/mods/hungry",
               "Main": "es.xcm.hunger.HytaleHungerMod",
               "IncludesAssetPack": true
             }
