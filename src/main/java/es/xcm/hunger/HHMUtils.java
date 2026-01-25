@@ -10,12 +10,12 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import es.xcm.hunger.components.HungerComponent;
 import es.xcm.hunger.config.HHMHungerConfig;
-import es.xcm.hunger.systems.StarveSystem;
 import es.xcm.hunger.ui.HHMHud;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.function.Predicate;
 
 public class HHMUtils {
     private static EntityEffect starvingEntityEffect;
@@ -78,26 +78,28 @@ public class HHMUtils {
         return activeEntityEffectIsStarving(effect) || activeEntityEffectIsHungry(effect);
     }
 
-    public static void removeHungerRelatedEffectsFromEntity(
+    public static void removeActiveEffects(
             Ref<EntityStore> ref,
             ComponentAccessor<EntityStore> componentAccessor,
-            @NonNullDecl EffectControllerComponent effectController
+            @NonNullDecl EffectControllerComponent effectController,
+            Predicate<ActiveEntityEffect> shouldRemoveEffect
     ) {
         final ActiveEntityEffect[] activeEffects = effectController.getAllActiveEntityEffects();
         if (activeEffects != null && activeEffects.length > 0) {
-            Arrays.stream(activeEffects).filter(StarveSystem::shouldRemoveEffectOnStarvation).forEach(effect -> {
+            Arrays.stream(activeEffects).filter(shouldRemoveEffect).forEach(effect -> {
                 effectController.removeEffect(ref, effect.getEntityEffectIndex(), componentAccessor);
             });
         }
     }
 
-    public static void removeHungerRelatedEffectsFromEntity(
+    public static void removeActiveEffects(
             Ref<EntityStore> ref,
-            ComponentAccessor<EntityStore> componentAccessor
+            ComponentAccessor<EntityStore> componentAccessor,
+            Predicate<ActiveEntityEffect> shouldRemoveEffect
     ) {
         final EffectControllerComponent effectController = componentAccessor.getComponent(ref, EffectControllerComponent.getComponentType());
         if (effectController == null) return;
-        removeHungerRelatedEffectsFromEntity(ref, componentAccessor, effectController);
+        removeActiveEffects(ref, componentAccessor, effectController, shouldRemoveEffect);
     }
 
     public static void setPlayerHungerLevel(
@@ -111,6 +113,8 @@ public class HHMUtils {
 
         hungerComponent.setHungerLevel(hungerLevel);
         HHMHud.updatePlayerHungerLevel(playerRef, hungerLevel);
+
+        removeActiveEffects(ref, componentAccessor, HHMUtils::activeEntityEffectIsHungerRelated);
     }
 
     @NonNullDecl

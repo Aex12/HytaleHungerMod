@@ -6,7 +6,6 @@ import com.hypixel.hytale.component.system.tick.EntityTickingSystem;
 import com.hypixel.hytale.server.core.asset.type.entityeffect.config.EntityEffect;
 import com.hypixel.hytale.server.core.entity.effect.ActiveEntityEffect;
 import com.hypixel.hytale.server.core.entity.effect.EffectControllerComponent;
-import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.component.Invulnerable;
 import com.hypixel.hytale.server.core.modules.entity.damage.*;
 import com.hypixel.hytale.server.core.modules.entitystats.EntityStatMap;
@@ -68,7 +67,6 @@ public class StarveSystem extends EntityTickingSystem<EntityStore> {
         return Query.and(
             HungerComponent.getComponentType(),
             EntityStatMap.getComponentType(),
-            Player.getComponentType(),
             PlayerRef.getComponentType(),
             Query.not(DeathComponent.getComponentType()),
             Query.not(Invulnerable.getComponentType())
@@ -113,13 +111,13 @@ public class StarveSystem extends EntityTickingSystem<EntityStore> {
             EffectControllerComponent effectController = commandBuffer.getComponent(ref, EffectControllerComponent.getComponentType());
             if (effectController == null) return;
             // remove all buffs when starving
-            HHMUtils.removeHungerRelatedEffectsFromEntity(ref, commandBuffer, effectController);
+            HHMUtils.removeActiveEffects(ref, commandBuffer, effectController, StarveSystem::shouldRemoveEffectOnStarvation);
             // apply starving effect
             EntityEffect starvingEffect = HHMUtils.getStarvingEntityEffect();
             effectController.addEffect(ref, starvingEffect, commandBuffer);
             // apply starvation damage
-             Damage damage = new Damage(Damage.NULL_SOURCE, HHMUtils.getStarvationDamageCause(), this.starvationDamage);
-             DamageSystems.executeDamage(ref, commandBuffer, damage);
+            Damage damage = new Damage(Damage.NULL_SOURCE, HHMUtils.getStarvationDamageCause(), this.starvationDamage);
+            DamageSystems.executeDamage(ref, commandBuffer, damage);
         }
 
         PlayerRef playerRef = archetypeChunk.getComponent(index, PlayerRef.getComponentType());

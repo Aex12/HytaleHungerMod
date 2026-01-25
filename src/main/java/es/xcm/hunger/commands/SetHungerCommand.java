@@ -8,12 +8,10 @@ import com.hypixel.hytale.server.core.command.system.arguments.system.RequiredAr
 import com.hypixel.hytale.server.core.command.system.arguments.types.ArgTypes;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractPlayerCommand;
 import com.hypixel.hytale.server.core.command.system.basecommands.CommandBase;
-import com.hypixel.hytale.server.core.permissions.HytalePermissions;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import es.xcm.hunger.components.HungerComponent;
-import es.xcm.hunger.ui.HHMHud;
+import es.xcm.hunger.HHMUtils;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 public class SetHungerCommand extends AbstractPlayerCommand {
@@ -34,19 +32,12 @@ public class SetHungerCommand extends AbstractPlayerCommand {
         @NonNullDecl PlayerRef targetPlayerRef,
         float newHungerLevel
     ) {
-        HungerComponent hungerComponent = store.getComponent(ref, HungerComponent.getComponentType());
-        if (hungerComponent == null) {
-            context.sendMessage(Message.raw("Hunger component not found."));
-            return;
-        }
-
         if (newHungerLevel < 0 || newHungerLevel > 100) {
             context.sendMessage(Message.raw("Hunger level must be between 0 and 100."));
             return;
         }
-        hungerComponent.setHungerLevel(newHungerLevel);
+        HHMUtils.setPlayerHungerLevel(ref, store, newHungerLevel);
         context.sendMessage(Message.raw("Hunger level has been set to " + newHungerLevel + " for player " + targetPlayerRef.getUsername() + "."));
-        HHMHud.updatePlayerHungerLevel(targetPlayerRef, newHungerLevel);
     }
 
     @Override

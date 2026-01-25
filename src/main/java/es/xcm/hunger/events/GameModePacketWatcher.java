@@ -13,8 +13,6 @@ import es.xcm.hunger.HHMUtils;
 import es.xcm.hunger.components.HungerComponent;
 import es.xcm.hunger.ui.HHMHud;
 
-import java.util.UUID;
-
 public class GameModePacketWatcher implements PlayerPacketWatcher {
     @Override
     public void accept(PlayerRef playerRef, Packet packet) {
@@ -30,7 +28,6 @@ public class GameModePacketWatcher implements PlayerPacketWatcher {
             GameMode gameMode = setGameMode.gameMode;
             HHMHud.updatePlayerGameMode(playerRef, gameMode);
             if (gameMode == GameMode.Creative) {
-                HHMUtils.removeHungerRelatedEffectsFromEntity(ref, store);
                 HHMUtils.setPlayerHungerLevel(ref, store, HungerComponent.maxHungerLevel);
             }
         });

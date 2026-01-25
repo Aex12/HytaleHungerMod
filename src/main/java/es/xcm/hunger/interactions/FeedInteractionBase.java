@@ -5,7 +5,6 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
-import com.hypixel.hytale.server.core.entity.effect.EffectControllerComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
@@ -16,8 +15,6 @@ import es.xcm.hunger.assets.FoodValue;
 import es.xcm.hunger.components.HungerComponent;
 import es.xcm.hunger.ui.HHMHud;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
-
-import java.util.Arrays;
 
 class FeedInteractionBase extends SimpleInstantInteraction {
     protected float fallbackHungerRestoration;
@@ -35,20 +32,13 @@ class FeedInteractionBase extends SimpleInstantInteraction {
 
         final PlayerRef playerRef = store.getComponent(ref, PlayerRef.getComponentType());
         final HungerComponent hungerComponent = store.getComponent(ref, HungerComponent.getComponentType());
-        final EffectControllerComponent effectController = commandBuffer.getComponent(ref, EffectControllerComponent.getComponentType());
         final ItemStack heldItem = context.getHeldItem();
-        if (playerRef == null || hungerComponent == null || effectController == null || heldItem == null) return;
+        if (playerRef == null || hungerComponent == null || heldItem == null) return;
 
         float hungerRestoration = FoodValue.getHungerRestoration(heldItem.getItemId(), this.fallbackHungerRestoration);
 
         hungerComponent.feed(hungerRestoration);
         HHMHud.updatePlayerHungerLevel(playerRef, hungerComponent.getHungerLevel());
-
-        final var activeEffects = effectController.getAllActiveEntityEffects();
-        if (activeEffects != null) {
-            Arrays.stream(activeEffects).filter(HHMUtils::activeEntityEffectIsHungerRelated).forEach(effect -> {
-                effectController.removeEffect(ref, effect.getEntityEffectIndex(), commandBuffer);
-            });
-        }
+        HHMUtils.removeActiveEffects(ref, commandBuffer, HHMUtils::activeEntityEffectIsHungerRelated);
     }
 }
