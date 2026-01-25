@@ -24,35 +24,16 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class StarveSystem extends EntityTickingSystem<EntityStore> {
-    private final float starvationTickRate;
-    private final float starvationPerTick;
-    private final float starvationDamage;
-    private final float starvationStaminaModifier;
-    private final float hungryThreshold;
+    @Nonnull
+    private final HHMHungerConfig config;
 
-    private StarveSystem(
-        float starvationTickRate,
-        float starvationPerTick,
-        float starvationDamage,
-        float starvationStaminaModifier,
-        float hungryThreshold
-    ) {
-        this.starvationTickRate = starvationTickRate;
-        this.starvationPerTick = starvationPerTick;
-        this.starvationDamage = starvationDamage;
-        this.starvationStaminaModifier = starvationStaminaModifier;
-        this.hungryThreshold = hungryThreshold;
+    private StarveSystem(@NonNullDecl HHMHungerConfig config) {
+        this.config = config;
     }
 
     public static StarveSystem create () {
-        HHMHungerConfig conf = HytaleHungerMod.get().getHungerConfig();
-        return new StarveSystem(
-            conf.getStarvationTickRate(),
-            conf.getStarvationPerTick(),
-            conf.getStarvationDamage(),
-            conf.getStarvationStaminaModifier(),
-            conf.getHungryThreshold()
-        );
+        HHMHungerConfig config = HytaleHungerMod.get().getHungerConfig();
+        return new StarveSystem(config);
     }
 
     @Nullable
@@ -87,18 +68,21 @@ public class StarveSystem extends EntityTickingSystem<EntityStore> {
 
         hunger.setStaminaSeen(getStaminaValue(entityStatMap));
         hunger.addElapsedTime(dt);
-        if (hunger.getElapsedTime() < this.starvationTickRate) return;
+        if (hunger.getElapsedTime() < this.config.getStarvationTickRate()) return;
         hunger.resetElapsedTime();
 
         float lowestStaminaSeen = hunger.getAndResetLowestStaminaSeen();
-        float staminaModifier = ((10.0f - lowestStaminaSeen) / 10.0f) * this.starvationStaminaModifier;
-        hunger.starve(this.starvationPerTick + staminaModifier);
+        float staminaModifier = ((10.0f - lowestStaminaSeen) / 10.0f) * this.config.getStarvationStaminaModifier();
+
+        float damagedBlocksModifier = hunger.getAndResetBlockHits() * this.config.getStarvationPerBlockHit();
+
+        hunger.starve(this.config.getStarvationPerTick() + staminaModifier + damagedBlocksModifier);
 
         float hungerLevel = hunger.getHungerLevel();
         Ref<EntityStore> ref = archetypeChunk.getReferenceTo(index);
 
         // Apply hungry effect when hunger level is below 20
-        if (hungerLevel != 0 && hungerLevel < this.hungryThreshold) {
+        if (hungerLevel != 0 && hungerLevel < this.config.getHungryThreshold()) {
             EffectControllerComponent effectController = commandBuffer.getComponent(ref, EffectControllerComponent.getComponentType());
             if (effectController == null) return;
             // apply hungry effect
@@ -116,7 +100,7 @@ public class StarveSystem extends EntityTickingSystem<EntityStore> {
             EntityEffect starvingEffect = HHMUtils.getStarvingEntityEffect();
             effectController.addEffect(ref, starvingEffect, commandBuffer);
             // apply starvation damage
-            Damage damage = new Damage(Damage.NULL_SOURCE, HHMUtils.getStarvationDamageCause(), this.starvationDamage);
+            Damage damage = new Damage(Damage.NULL_SOURCE, HHMUtils.getStarvationDamageCause(), this.config.getStarvationDamage());
             DamageSystems.executeDamage(ref, commandBuffer, damage);
         }
 

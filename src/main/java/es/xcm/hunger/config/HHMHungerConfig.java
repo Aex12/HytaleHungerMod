@@ -14,6 +14,9 @@ public class HHMHungerConfig {
             .append(new KeyedCodec<>("StarvationPerTick", Codec.FLOAT),
                     ((config, value) -> config.starvationPerTick = value),
                     HHMHungerConfig::getStarvationPerTick).add()
+            .append(new KeyedCodec<>("StarvationPerBlockHit", Codec.FLOAT),
+                    ((config, value) -> config.starvationPerBlockHit = value),
+                    HHMHungerConfig::getStarvationPerBlockHit).add()
             .append(new KeyedCodec<>("StarvationStaminaModifier", Codec.FLOAT),
                     ((config, value) -> config.starvationStaminaModifier = value),
                     HHMHungerConfig::getStarvationStaminaModifier).add()
@@ -42,6 +45,7 @@ public class HHMHungerConfig {
 
     private float starvationTickRate = 2f;
     private float starvationPerTick = 0.125f;
+    private float starvationPerBlockHit = 0.02f;
     private float starvationStaminaModifier = 0.175f;
     private float hungryThreshold = 20.0f;
     private float starvationDamage = 5.0f;
@@ -55,6 +59,9 @@ public class HHMHungerConfig {
     }
     public float getStarvationPerTick() {
         return starvationPerTick;
+    }
+    public float getStarvationPerBlockHit() {
+        return starvationPerBlockHit;
     }
     public float getStarvationStaminaModifier() {
         return starvationStaminaModifier;
