@@ -5,7 +5,6 @@ import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractPlayerCommand;
-import com.hypixel.hytale.server.core.permissions.PermissionsModule;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
@@ -43,25 +42,21 @@ public class HungryCommand extends AbstractPlayerCommand {
             @NonNullDecl PlayerRef playerRef,
             @NonNullDecl World world
     ) {
-        PermissionsModule permissionsModule = PermissionsModule.get();
-        Predicate<String> playerHasPermission = (permission) -> {
-            return permissionsModule.hasPermission(playerRef.getUuid(), permission);
-        };
         Message message = Message.empty();
         message.insert(helpMessageBase);
-        if (playerHasPermission.test(HungryHideCommand.requiredPermission)) {
+        if (context.sender().hasPermission(HungryHideCommand.requiredPermission)) {
             message.insert("\n").insert(hideMessage);
         }
-        if (playerHasPermission.test(HungryShowCommand.requiredPermission)) {
+        if (context.sender().hasPermission(HungryShowCommand.requiredPermission)) {
             message.insert("\n").insert(showMessage);
         }
-        if (playerHasPermission.test(HungryPositionCommand.requiredPermission)) {
+        if (context.sender().hasPermission(HungryPositionCommand.requiredPermission)) {
             message.insert("\n").insert(positionMessage);
         }
-        if (playerHasPermission.test(SetHungerCommand.requiredPermission)) {
+        if (context.sender().hasPermission(SetHungerCommand.requiredPermission)) {
             message.insert("\n").insert(helpMessageSetSelf);
         }
-        if (playerHasPermission.test(SetHungerCommand.SetHungerOtherCommand.requiredPermission)) {
+        if (context.sender().hasPermission(SetHungerCommand.SetHungerOtherCommand.requiredPermission)) {
             message.insert("\n").insert(helpMessageSetOther);
         }
         playerRef.sendMessage(message);
