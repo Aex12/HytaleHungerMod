@@ -26,8 +26,10 @@ public class GameModePacketWatcher implements PlayerPacketWatcher {
         world.execute(() -> {
             GameMode gameMode = setGameMode.gameMode;
             HHMHud.updatePlayerGameMode(playerRef, gameMode);
-            if (gameMode == GameMode.Creative) {
-                HHMUtils.setPlayerHungerLevel(ref, store, HungerComponent.maxHungerLevel);
+            HungerComponent hunger = store.getComponent(ref, HungerComponent.getComponentType());
+            if (hunger == null) return;
+            if (gameMode == GameMode.Creative && hunger.getHungerLevel() < HungerComponent.initialHungerLevel) {
+                HHMUtils.setPlayerHungerLevel(ref, store, HungerComponent.initialHungerLevel);
             }
         });
     }

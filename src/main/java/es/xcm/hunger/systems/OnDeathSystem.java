@@ -36,6 +36,6 @@ public class OnDeathSystem extends DeathSystems.OnDeathSystem {
 
     @Override
     public void onComponentRemoved(@NonNullDecl Ref<EntityStore> ref, @NonNullDecl DeathComponent component, @NonNullDecl Store<EntityStore> store, @NonNullDecl CommandBuffer<EntityStore> commandBuffer) {
-        HHMUtils.setPlayerHungerLevel(ref, store, HungerComponent.maxHungerLevel);
+        HHMUtils.setPlayerHungerLevel(ref, store, HungerComponent.initialHungerLevel);
     }
 }

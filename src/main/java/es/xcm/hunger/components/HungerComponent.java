@@ -18,13 +18,14 @@ public class HungerComponent implements Component<EntityStore> {
             .build();
 
     public static final float maxHungerLevel = 200.0f;
+    public static final float initialHungerLevel = 100.0f;
     private float elapsedTime = 0.0f;
     private float lowestStaminaSeen = 10.0f;
     private int blockHits = 0;
     private float hungerLevel;
 
     public HungerComponent() {
-        this.hungerLevel = maxHungerLevel; // Max hunger level
+        this.hungerLevel = initialHungerLevel; // Max hunger level
     }
 
     public HungerComponent (float hungerLevel) {
