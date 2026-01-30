@@ -44,3 +44,4 @@ bin/
 
 ### Hytale Libs ###
 /libs/*.jar
+features.md

@@ -47,6 +47,13 @@ This prevents repeated trial-and-error and supports deterministic iteration.
 
 ## 4) Entry Template (Error -> Success)
 
+- Timestamp (America/Monterrey): 2026-01-30 16:15
+- Symptom: `java.lang.NullPointerException: Cannot invoke "String.hashCode()" because "this.group" is null` during server boot.
+- Cause: Missing `Group` field in the mod's `manifest.json`. Hytale's `PluginIdentifier` requires a non-null group value for internal mapping.
+- Fix: Ensure the `manifest.json` generation logic in `build.gradle.kts` includes a valid `Group` field (e.g., matching the project's base package).
+- Prevention: Always include `Group`, `Name`, and `Version` in the manifest, as they are primordial for the Hytale plugin system.
+- Status: active
+
 - Timestamp (America/Monterrey):
 - Title:
 - Symptom:

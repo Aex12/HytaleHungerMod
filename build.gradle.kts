@@ -2,73 +2,73 @@ plugins {
     id("java")
 }
 
-group = "es.xcm"
+group = "mx.jume.aquahunger"
 version = "0.1.19"
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
+    }
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    // Standard practice for local jar dependencies in Hytale mods
     compileOnly(fileTree("libs") { include("*.jar") })
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
+    
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-tasks.test {
-    useJUnitPlatform()
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
 }
 
 /**
- * Generate manifest.json content as a generated resource
- * using Gradle's group/name/version before every build/processResources.
+ * Task to generate the Hytale manifest.json metadata file.
+ * Following Gradle best practices for task inputs/outputs and lazy properties.
  */
-val generatedResourcesDir: Provider<Directory> = layout.buildDirectory.dir("generated/resources/main")
-
 val generateManifest by tasks.registering {
-    val outFile = generatedResourcesDir.map { it.file("manifest.json") }
-
-    // Regenerate if any of these change
-    inputs.property("group", project.group.toString())
+    val outputDir = layout.buildDirectory.dir("generated/resources")
+    outputs.dir(outputDir)
+    
+    inputs.property("group", project.group)
     inputs.property("name", rootProject.name)
-    inputs.property("version", project.version.toString())
-
-    outputs.file(outFile)
+    inputs.property("version", project.version)
 
     doLast {
-        val f = outFile.get().asFile
-        f.parentFile.mkdirs()
-
         val json = """
             {
               "Group": "${project.group}",
               "Name": "${rootProject.name}",
               "Version": "${project.version}",
-              "Website": "https://github.com/jumento/Aqua-Thirst-hunger",
-              "Main": "es.xcm.hunger.AquaThirstHunger",
+              "Main": "${project.group}.AquaThirstHunger",
               "IncludesAssetPack": true
             }
-        """.trimIndent() + "\n"
-
-        f.writeText(json, Charsets.UTF_8)
+        """.trimIndent()
+        
+        val manifestFile = outputDir.get().file("manifest.json").asFile
+        manifestFile.parentFile.mkdirs()
+        manifestFile.writeText(json)
     }
 }
 
-// Make Gradle include the generated resources directory in the main resources
 sourceSets {
-    named("main") {
-        resources.srcDir(generatedResourcesDir)
+    main {
+        // Automatically wires generateManifest as a dependency of processResources
+        resources.srcDir(generateManifest)
     }
 }
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(25)
+tasks.jar {
+    manifest {
+        attributes(
+            "Implementation-Title" to rootProject.name,
+            "Implementation-Version" to project.version,
+            "Main-Class" to "${project.group}.AquaThirstHunger"
+        )
     }
-}
-
-// Ensure it's generated before resources are packaged (build/jar/run/etc.)
-tasks.named<ProcessResources>("processResources") {
-    dependsOn(generateManifest)
 }

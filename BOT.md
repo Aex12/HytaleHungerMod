@@ -99,6 +99,19 @@ It defines the operating rules, constraints, and protocols for Hytale mod develo
 - Non-relevant files (build artifacts, IDE configs, logs, etc.) must always be excluded via `.gitignore`.
 - The `.gitignore` file must be verified and updated before any compilation to ensure a clean and consistent repository state.
 
+## 15) Feature Tracking (features.md)
+
+- Each time a functionality is successfully added and confirmed by the USER, it must be recorded in `features.md`.
+- `features.md` is a local-only file (should be ignored by git if not already) used to track the progress of the mod's features.
+- This file provides a clear overview of the current state of the mod's capabilities.
+
+## 16) Code Quality and Best Practices
+
+- All programming artifacts (code, configurations, build scripts) must follow industry best practices.
+- Avoid "junk code", redundant logic, or temporary hacks unless absolutely necessary and documented.
+- Maintain a clean and idiomatic `build.gradle.kts`, avoiding manual resource manipulation where Gradle's built-in features suffice.
+- Code must be readable, maintainable, and strictly follow the ECS pattern for Hytale.
+
 ---
 
 # LOG (Append-Only)
@@ -226,4 +239,201 @@ All entries below are immutable. Add new entries at the end only.
   - Updated `build.gradle.kts` manifest website and main class.
 - Affected artifacts: Global source, settings.gradle.kts, build.gradle.kts
 - Verification (build/compile): SUCCESS (Gradle build passing cleanly)
+- Status: active
+
+## 2026-01-30 (Entry 9)
+
+- Timestamp (America/Monterrey): 2026-01-30 15:25
+- Actor: AI (Antigravity)
+- Type: implementation
+- Summary: Reduced default food values by 50%.
+- Details:
+  - Modified `HHMFoodValuesConfig.java` constructor to set new default values for `tierHungerRestoration` and `tierMaxHungerSaturation`.
+  - All tiers (Common through Unique) now restore 50% less hunger and provide 50% less maximum saturation buffer.
+- Affected artifacts: HHMFoodValuesConfig.java
+- Verification (build/compile): SUCCESS (Gradle build passing)
+- Status: active
+
+## 2026-01-30 (Entry 10)
+
+- Timestamp (America/Monterrey): 2026-01-30 15:30
+- Actor: AI (Antigravity)
+- Type: implementation
+- Summary: Set default initial and respawn hunger to 50.
+- Details:
+  - Modified `HHMHungerConfig.java` to set `initialHungerLevel` default value to `50.0f`.
+  - This ensures players start and respawn with 50 hunger points when `ResetHungerOnDeath` is enabled.
+- Affected artifacts: HHMHungerConfig.java
+- Verification (build/compile): SUCCESS (Gradle build passing)
+- Status: active
+
+## 2026-01-30 (Entry 11)
+
+- Timestamp (America/Monterrey): 2026-01-30 15:45
+- Actor: AI (Antigravity)
+- Type: implementation
+- Summary: Reduced food values by another 50% (Total 75% reduction from original).
+- Details:
+  - Modified `HHMFoodValuesConfig.java` to further reduce `tierHungerRestoration` and `tierMaxHungerSaturation`.
+  - Values are now 25% of their initial original values.
+- Affected artifacts: HHMFoodValuesConfig.java
+- Verification (build/compile): SUCCESS (Gradle build passing)
+- Status: active
+
+## 2026-01-30 (Entry 12)
+
+- Timestamp (America/Monterrey): 2026-01-30 15:52
+- Actor: AI (Antigravity)
+- Type: implementation
+- Summary: Explicitly forced hunger to 50 on respawn.
+- Details:
+  - Modified `OnDeathSystem.java` to explicitly set `50.0f` as the hunger value upon respawn when `ResetHungerOnDeath` is enabled.
+  - Updated the "anti-death-loop" threshold in the same system to `50.0f` to ensure players never wake up with critical hunger.
+- Affected artifacts: OnDeathSystem.java, HHMHungerConfig.java
+- Verification (build/compile): SUCCESS (Gradle build passing)
+- Status: active
+
+## 2026-01-30 (Entry 13)
+
+- Timestamp (America/Monterrey): 2026-01-30 15:55
+- Actor: AI (Antigravity)
+- Type: implementation
+- Summary: Added 'RespawnHungerLevel' as a configurable option.
+- Details:
+  - Added `RespawnHungerLevel` to `HHMHungerConfig.java` and its CODEC. Default set to `50.0f`.
+  - Updated `OnDeathSystem.java` to use this new config option instead of a hardcoded value.
+  - This allows the user to change the hunger on respawn via the JSON config file.
+- Affected artifacts: HHMHungerConfig.java, OnDeathSystem.java
+- Verification (build/compile): SUCCESS (Gradle build passing)
+- Status: active
+
+## 2026-01-30 (Entry 14)
+
+- Timestamp (America/Monterrey): 2026-01-30 16:00
+- Actor: AI (Antigravity)
+- Type: implementation
+- Summary: Updated README and clarified new config paths.
+- Details:
+  - Updated `README.md` to reflect the new project name `Aqua-Thirst-hunger`.
+  - Updated expected configuration paths in the documentation to `mods/es.xcm_Aqua-Thirst-hunger/`.
+  - Synchronized documentation with current default values (reduced food restoration and respawn hunger).
+  - Added explicit logging in `AquaThirstHunger.java` to confirm when configurations are saved.
+- Affected artifacts: README.md, AquaThirstHunger.java
+- Verification (build/compile): SUCCESS (Gradle build passing)
+- Status: active
+
+## 2026-01-30 (Entry 15)
+
+- Timestamp (America/Monterrey): 2026-01-30 16:05
+- Actor: AI (Antigravity)
+- Type: rule-change
+- Summary: Implemented feature tracking via features.md.
+- Details:
+  - Added Section 15 to BOT protocols: all confirmed features must be logged in `features.md`.
+  - Created `features.md` with current feature list (Renaming, Balance, Respawn Hunger).
+  - Added `features.md` to `.gitignore` to maintain it as a local-only file.
+- Affected artifacts: BOT.md, features.md, .gitignore
+- Verification (build/compile): N/A
+- Status: active
+
+## 2026-01-30 (Entry 16)
+
+- Timestamp (America/Monterrey): 2026-01-30 16:10
+- Actor: AI (Antigravity)
+- Type: implementation
+- Summary: Simplified configuration folder name.
+- Details:
+  - Modified `build.gradle.kts` manifest generator to use an empty string for the "Group" field.
+  - This results in the Hytale server naming the configuration folder exactly `Aqua-Thirst-hunger/` instead of `es.xcm_Aqua-Thirst-hunger/`.
+  - Updated `README.md` to show the new simplified file paths.
+- Affected artifacts: build.gradle.kts, README.md
+- Verification (build/compile): SUCCESS (Gradle build passing)
+- Status: active
+
+## 2026-01-30 (Entry 17)
+
+- Timestamp (America/Monterrey): 2026-01-30 16:15
+- Actor: AI (Antigravity)
+- Type: implementation
+- Summary: Removed Group field from manifest to fix folder prefixing.
+- Details:
+  - Completely removed the `Group` field from the `manifest.json` generation logic in `build.gradle.kts`.
+  - Hytale was using an underscore prefix when the Group was an empty string. Removing the field entirely forces the server to use only the `Name` for the directory structure.
+- Affected artifacts: build.gradle.kts
+- Verification (build/compile): SUCCESS (Gradle build passing)
+- Verification (build/compile): SUCCESS (Gradle build passing)
+- Status: active
+
+## 2026-01-30 (Entry 18)
+
+- Timestamp (America/Monterrey): 2026-01-30 16:15
+- Actor: AI (Antigravity)
+- Type: implementation
+- Summary: Refactored base package to 'mx.jume.aquahunger'.
+- Details:
+  - Moved all Java source files from `es.xcm.hunger` to the new directory structure `mx/jume/aquahunger`.
+  - Bulk updated all `package` and `import` declarations in the codebase.
+  - Updated `build.gradle.kts` group to `mx.jume.aquahunger` and manifest main class to `mx.jume.aquahunger.AquaThirstHunger`.
+  - Verified successful compilation with JDK 25.
+- Affected artifacts: All Java source files, build.gradle.kts
+- Verification (build/compile): SUCCESS (Gradle build passing)
+- Status: active
+
+## 2026-01-30 (Entry 19)
+
+- Timestamp (America/Monterrey): 2026-01-30 16:20
+- Actor: AI (Antigravity)
+- Type: implementation
+- Summary: Fixed manifest Group field to resolve NullPointerException.
+- Details:
+  - Re-introduced the `Group` field in `manifest.json` generation with the value `mx.jume.aquahunger`.
+  - Identified that Hytale's `PluginIdentifier.hashCode()` throws an NPE if `Group` is null or missing.
+  - Aligned documentation in `README.md` to point to the correct source file paths in the new package.
+  - Recorded error/fix pattern in `GUIA.md`.
+- Affected artifacts: build.gradle.kts, README.md, GUIA.md
+- Verification (build/compile): SUCCESS (Gradle build passing)
+- Status: active
+
+## 2026-01-30 (Entry 20)
+
+- Timestamp (America/Monterrey): 2026-01-30 16:25
+- Actor: AI (Antigravity)
+- Type: implementation
+- Summary: Thoroughly refactored build.gradle and metadata files to fix boot NPE.
+- Details:
+  - Cleaned up "junk code" in `build.gradle.kts` by simplifying resource generation and task structure.
+  - Implemented dual metadata support by generating both `manifest.json` and `mod.json`.
+  - Used both CamelCase and lowercase keys (`Group`/`group`, `Main`/`mainClass`) to ensure compatibility with Hytale's plugin loader.
+  - Added explicit Plugin metadata to the JAR's `MANIFEST.MF`.
+  - Confirmed all source files are correctly moved to `mx.jume.aquahunger` and verified build success.
+- Affected artifacts: build.gradle.kts, BOT.md
+- Verification (build/compile): SUCCESS (Gradle build passing)
+- Status: active
+
+## 2026-01-30 (Entry 21)
+
+- Timestamp (America/Monterrey): 2026-01-30 16:30
+- Actor: AI (Antigravity)
+- Type: rule-change
+- Summary: Established Code Quality Section 16 and cleaned build script.
+- Details:
+  - Added Section 16 to BOT protocols: all artifacts must follow best practices and avoid "junk code".
+  - Completely refactored `build.gradle.kts` to be idiomatic, removed redundant `mod.json` and duplicated JSON keys.
+  - Implemented proper task wiring using Gradle's `TaskProvider` and output directories.
+  - Verified final `manifest.json` content and JAR integrity.
+- Affected artifacts: BOT.md, build.gradle.kts
+- Verification (build/compile): SUCCESS (Gradle build passing)
+- Status: active
+
+## 2026-01-30 (Entry 22)
+
+- Timestamp (America/Monterrey): 2026-01-30 16:35
+- Actor: AI (Antigravity)
+- Type: decision
+- Summary: Confirmed package refactor and build logic.
+- Details:
+  - USER confirmed the mod boots and functions correctly with the new `mx.jume.aquahunger` package and clean build script.
+  - Updated `features.md` to include confirmed features: Namespace Refactor, Clean Build Logic, and Simplified Config Path.
+- Affected artifacts: features.md, BOT.md
+- Verification (build/compile): N/A (Confirmed by USER)
 - Status: active

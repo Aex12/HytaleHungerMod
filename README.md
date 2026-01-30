@@ -1,4 +1,4 @@
-# Hytale Hunger Mod
+# Aqua-Thirst-hunger
 
 Introduces a Hunger system to Hytale, requiring players to manage their food intake to survive and thrive in the game world.
 
@@ -42,11 +42,12 @@ This mod have been designed with compatibility in mind, ensuring it works well a
 
 ## Hunger Configuration
 
-This mod will create a configuration file under `mods/es.xcm_HytaleHungerMod/HungerConfig.json` in your world folder after the first run. You can customize the following settings:
+This mod will create a configuration file under `mods/Aqua-Thirst-hunger/HungerConfig.json` in your world folder after the first run. You can customize the following settings:
 
 | Key                         | Valid value                                                                                                                                         | Default Value         | Description                                                                                                                                                                                                                                                     |
 |-----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `InitialHungerLevel`        | Number (0-200)                                                                                                                                      | 100.0                 | Initial hunger level that will be set to new players when they join for the first time, or after they die. Values over 100 will result in a saturated hunger bar. This can cause confusion to players since the saturation won't be filled with most food items |
+| `InitialHungerLevel`        | Number (0-200)                                                                                                                                      | 50.0                  | Initial hunger level that will be set to new players when they join for the first time. Values over 100 will result in a saturated hunger bar.                                                                                                                   |
+| `RespawnHungerLevel`       | Number (0-200)                                                                                                                                      | 50.0                  | Initial hunger level that will be set to players after they die.                                                                                                                                                                                                |
 | `ResetHungerOnDeath`        | true / false                                                                                                                                        | true                  | Whether or not to reset the hunger level to `InitialHungerLevel` after a player dies. Can be set to `false` to prevent players dying on purpose to restore their hunger instead of eating.                                                                      |
 | `StarvationTickRate`        | Number (seconds)                                                                                                                                    | 2.0                   | How often (in seconds) the hunger depletes. Also affect how often you take damage when starving.                                                                                                                                                                |
 | `StarvationPerTick`         | Number                                                                                                                                              | 0.125                 | How much hunger is lost every tick (as defined by StarvationTickRate).                                                                                                                                                                                          |
@@ -57,7 +58,7 @@ This mod will create a configuration file under `mods/es.xcm_HytaleHungerMod/Hun
 | `HudPosition`               | `BottomLeft` <br/> `AboveHotbarCentered` <br/> `AboveHotbarLeft` <br/> `BelowHotbarCentered` <br/> `BelowHotbarLeft` <br/> `Custom:<left>:<bottom>` | `AboveHotbarCentered` | The position where the HUD will be rendered. `Custom:12:12` is equivalent to `BottomLeft`.                                                                                                                                                                      |
 | `SinglePlayer`              | true / false                                                                                                                                        | true                  | Whether to run this mod in single player mode. Setting this to true will add some default permissions to the `Adventure` and `Creative` group for using some commands.                                                                                          |
 
-The max hunger is non-configurable and is set to 100. If you want to check the default values, you can find them in the [HHMConfig](src/main/java/es/xcm/hunger/HHMConfig.java) class.
+The max hunger is non-configurable and is set to 100. If you want to check the default values, you can find them in the [HHMHungerConfig](src/main/java/mx/jume/aquahunger/config/HHMHungerConfig.java) class.
 
 You can use the following formula to calculate how long it takes to starve from full hunger to zero:
 
@@ -69,7 +70,7 @@ The result is in minutes.
 
 ## Food Configuration
 
-You can customize how much hunger is restored by particular food items by modifying the JSON file under `mods/es.xcm_HytaleHungerMod/FoodValuesConfig.json` in your world folder.
+You can customize how much hunger is restored by particular food items by modifying the JSON file under `mods/Aqua-Thirst-hunger/FoodValuesConfig.json` in your world folder.
 
 | Key                       | Valid value           | Default Value | Description                                                                                                   |
 |---------------------------|-----------------------|---------------|---------------------------------------------------------------------------------------------------------------|
@@ -87,22 +88,22 @@ Default values:
   "IgnoreInteractionValues": false,
   "IgnoreCustomAssetValues": false,
   "TierHungerRestoration": {
-    "Common": 15.0,
-    "Uncommon": 25.0,
-    "Rare": 45.0,
-    "Epic": 70.0,
-    "Legendary": 100.0,
-    "Mythic": 140.0,
-    "Unique": 190.0
+    "Common": 3.75,
+    "Uncommon": 6.25,
+    "Rare": 11.25,
+    "Epic": 17.5,
+    "Legendary": 25.0,
+    "Mythic": 35.0,
+    "Unique": 47.5
   },
   "TierMaxHungerSaturation": {
     "Common": 0.0,
-    "Uncommon": 15.0,
-    "Rare": 30.0,
-    "Epic": 45.0,
-    "Legendary": 65.0,
-    "Mythic": 80.0,
-    "Unique": 100.0
+    "Uncommon": 3.75,
+    "Rare": 7.5,
+    "Epic": 11.25,
+    "Legendary": 16.25,
+    "Mythic": 20.0,
+    "Unique": 25.0
   },
   "ItemHungerRestoration": {},
   "ItemMaxHungerSaturation": {}
