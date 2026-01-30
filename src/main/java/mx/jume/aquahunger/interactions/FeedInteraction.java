@@ -50,6 +50,16 @@ public class FeedInteraction extends SimpleInstantInteraction {
             "Food_Wildmeat_Raw");
 
     public static float getHungerRestoration(Item item, Float interactionValue) {
+        // 0. External Config Override (Highest Priority)
+        mx.jume.aquahunger.config.HHMExternalFoodsConfig externalConfig = AquaThirstHunger.get()
+                .getExternalFoodsConfig();
+        if (externalConfig != null) {
+            var entry = externalConfig.resolve(item.getId());
+            if (entry != null) {
+                return entry.hungerRestoration;
+            }
+        }
+
         HHMFoodValuesConfig config = AquaThirstHunger.get().getFoodValuesConfig();
         // first prefer user config
         Float configValue = config.getItemHungerRestoration(item.getId());
@@ -74,6 +84,16 @@ public class FeedInteraction extends SimpleInstantInteraction {
     }
 
     public static float getMaxHungerSaturation(Item item, Float interactionValue) {
+        // 0. External Config Override (Highest Priority)
+        mx.jume.aquahunger.config.HHMExternalFoodsConfig externalConfig = AquaThirstHunger.get()
+                .getExternalFoodsConfig();
+        if (externalConfig != null) {
+            var entry = externalConfig.resolve(item.getId());
+            if (entry != null) {
+                return entry.maxHungerSaturation;
+            }
+        }
+
         HHMFoodValuesConfig config = AquaThirstHunger.get().getFoodValuesConfig();
         // first prefer user config
         Float configValue = config.getItemMaxHungerSaturation(item.getId());

@@ -16,6 +16,7 @@ public class ConfigManager {
 
     private HHMHungerConfig hungerConfig;
     private HHMFoodValuesConfig foodValuesConfig;
+    private HHMExternalFoodsConfig externalFoodsConfig;
 
     public void load() {
         File dir = new File(CONFIG_DIR);
@@ -26,6 +27,7 @@ public class ConfigManager {
         this.hungerConfig = loadConfig("HungerConfig.json", HHMHungerConfig.class, new HHMHungerConfig());
         this.foodValuesConfig = loadConfig("FoodValuesConfig.json", HHMFoodValuesConfig.class,
                 new HHMFoodValuesConfig());
+        this.externalFoodsConfig = new HHMExternalFoodsConfig(dir);
 
         // Save back to ensure all fields are present in the file
         save();
@@ -49,6 +51,9 @@ public class ConfigManager {
     public void save() {
         saveConfig("HungerConfig.json", hungerConfig);
         saveConfig("FoodValuesConfig.json", foodValuesConfig);
+        if (externalFoodsConfig != null) {
+            externalFoodsConfig.save();
+        }
     }
 
     private void saveConfig(String fileName, Object config) {
@@ -66,5 +71,9 @@ public class ConfigManager {
 
     public HHMFoodValuesConfig getFoodValuesConfig() {
         return foodValuesConfig;
+    }
+
+    public HHMExternalFoodsConfig getExternalFoodsConfig() {
+        return externalFoodsConfig;
     }
 }

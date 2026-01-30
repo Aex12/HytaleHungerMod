@@ -84,3 +84,17 @@ This prevents repeated trial-and-error and supports deterministic iteration.
 - Verification: Server boot log confirms manual loading; files exist in `mods/Aqua-Thirst-hunger/`.
 - Related BOT Log Reference (date/summary): 2026-01-30 (Entry 26)
 - Status: active
+
+- Timestamp (America/Monterrey): 2026-01-30 17:15
+- Title: Preventing HUD/UI Breakage by Preserving Internal Constants
+- Goal: Set player hunger to full (100%) on join without breaking the visual hunger bar.
+- Context: We initially tried reducing `maxHungerLevel` in code from 200.0 to 100.0. This caused the hunger bar to disappear entirely, likely due to a mismatch with the client-side UI scaler or a hardcoded expectation of the 200.0 scale.
+- Preconditions: HungerComponent logic depends on strict float ranges.
+- Steps:
+  1. **Revert** any changes to `public static final` constants that define component capacity (e.g., `maxHungerLevel`).
+  2. **Modify** only the configuration default values (e.g., `InitialHungerLevel`) to match the internal maximum (200.0) if you want a "Full" state.
+- Result: The bar renders correctly at 100% capacity because the math (200/200) is consistent with the UI's expectation.
+- Replication Steps: If a UI element disappears after changing a limit, revert the limit and adjust the *current* value instead.
+- Verification: Bar is visible and full on server join.
+- Related BOT Log Reference (date/summary): 2026-01-30 (Entry 27)
+- Status: active

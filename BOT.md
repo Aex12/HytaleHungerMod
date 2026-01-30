@@ -496,3 +496,38 @@ All entries below are immutable. Add new entries at the end only.
 - Affected artifacts: ConfigManager.java, AquaThirstHunger.java, build.gradle.kts
 - Verification (build/compile): SUCCESS (Gradle build passing)
 - Status: active
+
+## 2026-01-30 (Entry 27)
+
+- Timestamp (America/Monterrey): 2026-01-30 17:15
+- Actor: AI (Antigravity)
+- Type: implementation
+- Summary: Configured Initial Hunger to Full (200.0) without changing internal max logic.
+- Details:
+  - Modified `HHMHungerConfig.java` default value for `InitialHungerLevel` to `200.0f`.
+  - Left `maxHungerLevel` constant in `HungerComponent.java` at `200.0f` to prevent UI/Bar rendering issues.
+  - This ensures players join the world or switch to Creative with a full hunger bar (200/200), while respawn remains configured separately (default 50).
+  - Created safety tag `aqua4` after changes.
+- Affected artifacts: HHMHungerConfig.java
+- Verification (build/compile): SUCCESS (Gradle build passing)
+- Status: active
+
+## 2026-01-30 (Entry 28)
+
+- Timestamp (America/Monterrey): 2026-01-30 17:45
+- Actor: AI (Antigravity)
+- Type: implementation
+- Summary: Implemented External Mod Support via ExternalFoodsConfig.json.
+- Details:
+  - Created `HHMExternalFoodsConfig.java` to handle `ExternalFoodsConfig.json`.
+  - Added auto-generation of default values for 'AndieChef' items (soya, nigiri, etc.).
+  - Integrated into `FeedInteraction.java` as a **High Priority Override**:
+    1. External Config (Exact Match -> Glob Match)
+    2. User Config (FoodValuesConfig.json)
+    3. Mod/Asset defaults
+  - Exposed via `ConfigManager` and `AquaThirstHunger` main class.
+  - Documented in `features.md` (Section 6).
+  - Created safety tag `aqua5` after changes.
+- Affected artifacts: HHMExternalFoodsConfig.java, ConfigManager.java, FeedInteraction.java, AquaThirstHunger.java
+- Verification (build/compile): SUCCESS (Gradle build passing)
+- Status: active
