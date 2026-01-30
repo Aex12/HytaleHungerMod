@@ -8,15 +8,15 @@ import java.util.Optional;
 
 public class HHMHungerConfig {
     public static final BuilderCodec<HHMHungerConfig> CODEC = BuilderCodec.builder(HHMHungerConfig.class, HHMHungerConfig::new)
-            .append(new KeyedCodec<>("StarvationTickRate", Codec.FLOAT),
-                    ((config, value) -> config.starvationTickRate = value),
-                    HHMHungerConfig::getStarvationTickRate).add()
             .append(new KeyedCodec<>("InitialHungerLevel", Codec.FLOAT),
                     ((config, value) -> config.initialHungerLevel = value),
                     HHMHungerConfig::getInitialHungerLevel).add()
             .append(new KeyedCodec<>("ResetHungerOnDeath", Codec.BOOLEAN),
                     ((config, value) -> config.resetHungerOnDeath = value),
                     HHMHungerConfig::isResetHungerOnDeath).add()
+            .append(new KeyedCodec<>("StarvationTickRate", Codec.FLOAT),
+                    ((config, value) -> config.starvationTickRate = value),
+                    HHMHungerConfig::getStarvationTickRate).add()
             .append(new KeyedCodec<>("StarvationPerTick", Codec.FLOAT),
                     ((config, value) -> config.starvationPerTick = value),
                     HHMHungerConfig::getStarvationPerTick).add()
@@ -51,14 +51,14 @@ public class HHMHungerConfig {
     private float starvationDamage = 5.0f;
     private HudPosition hudPosition = HudPosition.pluginDefault();
 
-    public float getStarvationTickRate() {
-        return starvationTickRate;
-    }
     public float getInitialHungerLevel() {
         return initialHungerLevel;
     }
     public boolean isResetHungerOnDeath() {
         return resetHungerOnDeath;
+    }
+    public float getStarvationTickRate() {
+        return starvationTickRate;
     }
     public float getStarvationPerTick() {
         return starvationPerTick;
