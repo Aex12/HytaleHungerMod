@@ -11,6 +11,12 @@ public class HHMHungerConfig {
             .append(new KeyedCodec<>("StarvationTickRate", Codec.FLOAT),
                     ((config, value) -> config.starvationTickRate = value),
                     HHMHungerConfig::getStarvationTickRate).add()
+            .append(new KeyedCodec<>("InitialHungerLevel", Codec.FLOAT),
+                    ((config, value) -> config.initialHungerLevel = value),
+                    HHMHungerConfig::getInitialHungerLevel).add()
+            .append(new KeyedCodec<>("ResetHungerOnDeath", Codec.BOOLEAN),
+                    ((config, value) -> config.resetHungerOnDeath = value),
+                    HHMHungerConfig::isResetHungerOnDeath).add()
             .append(new KeyedCodec<>("StarvationPerTick", Codec.FLOAT),
                     ((config, value) -> config.starvationPerTick = value),
                     HHMHungerConfig::getStarvationPerTick).add()
@@ -34,6 +40,9 @@ public class HHMHungerConfig {
                     ((config) -> config.getHudPosition().name())).add()
             .build();
 
+
+    private float initialHungerLevel = 100.0f;
+    private boolean resetHungerOnDeath = true;
     private float starvationTickRate = 2f;
     private float starvationPerTick = 0.125f;
     private float starvationPerBlockHit = 0.02f;
@@ -44,6 +53,12 @@ public class HHMHungerConfig {
 
     public float getStarvationTickRate() {
         return starvationTickRate;
+    }
+    public float getInitialHungerLevel() {
+        return initialHungerLevel;
+    }
+    public boolean isResetHungerOnDeath() {
+        return resetHungerOnDeath;
     }
     public float getStarvationPerTick() {
         return starvationPerTick;

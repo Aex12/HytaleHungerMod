@@ -62,6 +62,12 @@ sourceSets {
     }
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
 // Ensure it's generated before resources are packaged (build/jar/run/etc.)
 tasks.named<ProcessResources>("processResources") {
     dependsOn(generateManifest)
