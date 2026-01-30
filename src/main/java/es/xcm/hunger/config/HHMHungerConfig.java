@@ -38,6 +38,9 @@ public class HHMHungerConfig {
                                 .orElse(HudPosition.pluginDefault());
                     }),
                     ((config) -> config.getHudPosition().name())).add()
+            .append(new KeyedCodec<>("SinglePlayer", Codec.BOOLEAN),
+                    ((config, value) -> config.singlePlayer = value),
+                    (config) -> config.singlePlayer).add()
             .build();
 
 
@@ -50,6 +53,7 @@ public class HHMHungerConfig {
     private float hungryThreshold = 20.0f;
     private float starvationDamage = 5.0f;
     private HudPosition hudPosition = HudPosition.pluginDefault();
+    private boolean singlePlayer = true;
 
     public float getInitialHungerLevel() {
         return initialHungerLevel;
@@ -80,5 +84,8 @@ public class HHMHungerConfig {
     }
     public void setHudPosition(HudPosition hudPosition) {
         this.hudPosition = hudPosition;
+    }
+    public boolean isSinglePlayer() {
+        return this.singlePlayer;
     }
 }

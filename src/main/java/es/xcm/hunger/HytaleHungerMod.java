@@ -1,7 +1,6 @@
 package es.xcm.hunger;
 
 import com.hypixel.hytale.assetstore.event.LoadedAssetsEvent;
-import com.hypixel.hytale.common.plugin.PluginIdentifier;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
@@ -10,8 +9,6 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Int
 import com.hypixel.hytale.server.core.permissions.PermissionsModule;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
-import com.hypixel.hytale.server.core.plugin.PluginBase;
-import com.hypixel.hytale.server.core.plugin.PluginManager;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.Config;
 import es.xcm.hunger.assets.FoodValue;
@@ -87,8 +84,7 @@ public class HytaleHungerMod extends JavaPlugin {
         super.start();
 
         // single player worlds get extra permissions to manage config
-        PluginBase singleplayerModule = PluginManager.get().getPlugin(PluginIdentifier.fromString("Hytale:SingleplayerModule"));
-        if (singleplayerModule != null && singleplayerModule.isEnabled()) {
+        if (this.getHungerConfig().isSinglePlayer()) {
             final Set<String> singleplayerPermissions = Set.of(
                     HungryCommand.requiredPermission,
                     HungryHideCommand.requiredPermission,
