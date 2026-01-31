@@ -27,7 +27,7 @@ public class HungryPositionCommand extends CommandBase {
         AboveHotbarLeft
         BelowHotbarCentered
         BelowHotbarLeft
-        Custom:<left>:<bottom> (e.g., Custom:100:50)
+        Custom:<layoutMode>:<left>:<bottom> (e.g., Custom:Bottom:12:12 or Custom:Center:-363:140)
         """);
     static Message helpMessage = Message.join(
             Message.raw("Valid HUD positions are:\n"),

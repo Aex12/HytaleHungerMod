@@ -64,6 +64,7 @@ public class HHMHud extends CustomUIHud {
         }
 
         uiCommandBuilder.setObject("#HHMContainer.Anchor", anchor);
+        uiCommandBuilder.set("#HHMHUD.LayoutMode", hudPosition.layoutMode().name());
     }
 
     protected void updateHungerLevel(UICommandBuilder uiCommandBuilder, float hungerLevel) {
