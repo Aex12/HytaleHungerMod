@@ -102,8 +102,10 @@ public class HHMThirstHud extends CustomUIHud {
     }
 
     protected void updateVisibility(UICommandBuilder uiCommandBuilder, boolean visible) {
-        this.visible = visible;
-        uiCommandBuilder.set("#HHMThirstContainer.Visible", visible);
+        // If thirst is disabled via config, force visible to false
+        boolean configEnabled = AquaThirstHunger.get().getThirstConfig().isEnableThirst();
+        this.visible = visible && configEnabled;
+        uiCommandBuilder.set("#HHMThirstContainer.Visible", this.visible);
     }
 
     static public void updatePlayerThirstLevel(@NonNullDecl PlayerRef playerRef, float thirstLevel) {

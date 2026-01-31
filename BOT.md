@@ -752,3 +752,282 @@ All entries below are immutable. Add new entries at the end only.
 - Affected artifacts: All
 - Verification (manual): User Approved.
 - Status: sealed
+
+## 2026-01-31 (Entry 45)
+
+- Timestamp (America/Monterrey): 2026-01-31 01:59
+- Actor: USER
+- Type: feature_implementation
+- Summary: Feature - Runtime Toggle for Hunger/Thirst.
+- Details:
+  - **Configs**: Added `enableHunger` to `HungerConfig.json` and `enableThirst` to `ThirstConfig.json`. Defaults: `true`.
+  - **Systems**: `StarveSystem` and `ThirstSystem` now abide by these flags (early return in tick).
+  - **Interactions**: `FeedInteraction` will not restore/saturate disabled stats.
+  - **HUD**: HUDs for hunger/thirst auto-hide if their respective feature is disabled.
+- Verification (build/compile): SUCCESS (Gradle build passing).
+- Verification (manual): Pending user runtime test.
+- Status: sealed
+
+## 2026-01-31 (Entry 46)
+
+- Timestamp (America/Monterrey): 2026-01-31 02:08
+- Actor: USER
+- Type: documentation
+- Summary: Config Documentation & Default Value Refinement.
+- Details:
+  - **Documentation**: Created `config_docs/` with markdown documentation for `HungerConfig`, `ThirstConfig`, `FoodValuesConfig`, and `ThirstFoodValuesConfig`.
+  - **Defaults Updates** (set in Code):
+    - `HungerConfig`: HUD Position -> `BelowHotbarLeft`.
+    - `ThirstConfig`: HUD Position -> `BelowHotbarRight`.
+    - `FoodValuesConfig`: Updated Default Tier Restoration/Saturation values.
+    - `ThirstFoodValuesConfig`: Updated Default Tier Thirst Restoration values.
+  - **Verification**: Gradle build pass.
+- Verification (manual): User to verify new config generation or manually update existing files.
+- Status: sealed
+
+## 2026-01-31 (Entry 47)
+
+- Timestamp (America/Monterrey): 2026-01-31 02:20
+- Actor: USER
+- Type: feature_refinement
+- Summary: Config File Generation & Commented Examples.
+- Details:
+  - **Manual Config Generation**: Generated `mods/Aqua-Thirst-hunger/*.json` with strict JSON content matching requested defaults.
+  - **Commented Configs**: Generated `mods/Aqua-Thirst-hunger/*.jsonc` files corresponding to each config, providing line-by-line documentation for all keys.
+  - **Defaults Enforced**:
+    - `HungerConfig`: `BelowHotbarLeft`.
+    - `ThirstConfig`: `BelowHotbarRight`.
+    - `FoodValues`: Updated Tier values.
+    - `ThirstFoodValues`: Updated Tier values.
+  - **Parsing Safety**: Actual runtime files remain strict JSON to ensure compatibility.
+- Verification (build/compile): SUCCESS (Gradle build passing).
+- Status: sealed
+
+## 2026-01-31 (Entry 48)
+
+- Timestamp (America/Monterrey): 2026-01-31 03:00
+- Actor: USER
+- Type: save_point
+- Summary: Save Point 'aqua9' - Toggles, Docs & Defaults.
+- Details:
+  - **Save Point**: `aqua9` formalized.
+  - **Verified**: User confirmed functionality ("funciona").
+  - **Contents**:
+    - Runtime toggles for Hunger/Thirst.
+    - Comprehensive Markdown documentation.
+    - JSONC commented config examples.
+    - Refined default values.
+- Affected artifacts: Configs, Documentation, Systems, HUD.
+- Verification (manual): User Approved.
+- Status: sealed
+
+## 2026-01-31 (Entry 49)
+
+- Timestamp (America/Monterrey): 2026-01-31 03:25
+- Actor: USER
+- Type: feature_implementation
+- Summary: Implemented "LifePerHunger" Mechanic.
+- Details:
+  - **Feature**: Health regeneration from hunger (1.0 HP / 2.0s, Cost: 1.0 Hunger).
+  - **Logic**: `HungerLifeSystem` runs parallel checks. Conditions: Alive, Not Invulnerable, Hunger > 6.0, Life < Max.
+  - **Config**: Added `LifePerHunger` (boolean, default false) to `HungerConfig.json`.
+  - **Documentation**: Updated `HungerConfig.jsonc` with new key details.
+  - **Optimization**: Uses reflection for protected Health API access.
+- Affected artifacts: HungerConfig.json(c), HungerLifeSystem.java, HHMHungerConfig.java
+- Verification (build/compile): SUCCESS (Gradle build passing).
+- Status: sealed
+
+## 2026-01-31 (Entry 50)
+
+- Timestamp (America/Monterrey): 2026-01-31 03:35
+- Actor: USER
+- Type: modification
+- Summary: Changed LifePerHunger default to TRUE.
+- Details:
+  - **Config Update**: Updated `HHMHungerConfig.java` to set `lifePerHunger = true` by default.
+  - **Manual Configs**: Updated `HungerConfig.json` and `HungerConfig.jsonc` to reflect `true` as the default value.
+  - **Intent**: Feature should be enabled out-of-the-box for new installations or when resetting configs.
+- Affected artifacts: HHMHungerConfig.java, HungerConfig.json/c
+- Verification (build/compile): SUCCESS (Gradle build passing).
+- Status: sealed
+
+## 2026-01-31 (Entry 51)
+
+- Timestamp (America/Monterrey): 2026-01-31 03:45
+- Actor: AI (Antigravity)
+- Type: bugfix
+- Summary: Fixed LifePerHunger healing logic and reflection error.
+- Details:
+  - **Issue**: Attempted to use non-existent `addStatValue` method, then import error for `Predictable`.
+  - **Correction**: Reverted to using reflection (via `getDeclaredMethod("set", float.class)`) as the most robust way to modify health given API access constraints.
+  - **Implementation**: `HungerLifeSystem` now calculates `Math.min(current + valid, max)` and sets the health value directly using reflection.
+  - **Debug**: Added temporary rate-limited debug logging (every 60s) to monitor health/hunger status in console.
+- Affected artifacts: HungerLifeSystem.java
+- Verification (build/compile): SUCCESS (Gradle build passing).
+- Status: sealed
+
+## 2026-01-31 (Entry 52)
+
+- Timestamp (America/Monterrey): 2026-01-31 03:55
+- Actor: AI (Antigravity)
+- Type: bugfix
+- Summary: Replaced Reflection with EntityStatMap Public API.
+- Details:
+  - **Correction**: Replaced reflection-based health modification with `EntityStatMap.setStatValue(int, float)`. This ensures proper synchronization with the game state.
+  - **Implementation**: `HungerLifeSystem` uses `setStatValue` to update health.
+  - **Cleanup**: Removed unused imports and reflection helper methods.
+  - **Debug**: Retained rate-limited debug helper for verification.
+- Affected artifacts: HungerLifeSystem.java
+- Verification (build/compile): SUCCESS (Gradle build passing).
+- Status: sealed
+
+## 2026-01-31 (Entry 53)
+
+- Timestamp (America/Monterrey): 2026-01-31 04:10
+- Actor: AI (Antigravity)
+- Type: feature_adjustment
+- Summary: Adjusted LifePerHunger Costs (4 Hunger, 1 Thirst).
+- Details:
+  - **Mechanic Update**: Increased regeneration cost:
+    - **Hunger**: -4.0 per pulse (was 1.0). Logic drains "saturation" (hunger > 100) naturally by reducing the total value.
+    - **Thirst**: -1.0 per pulse (new requirement).
+  - **Gates**: Regeneration now requires `Hunger >= 4.0` AND `Thirst >= 1.0`.
+  - **Config**: Updated `HungerConfig.jsonc` comments to reflect new default behavior. NO new config keys added.
+  - **Logic**: Updated `HungerLifeSystem` to include `ThirstComponent` in query/logic.
+- Affected artifacts: HungerLifeSystem.java, HungerConfig.jsonc
+- Verification (build/compile): SUCCESS (Gradle build passing).
+- Status: sealed
+
+## 2026-01-31 (Entry 54)
+
+- Timestamp (America/Monterrey): 2026-01-31 04:15
+- Actor: AI (Antigravity)
+- Type: feature_adjustment
+- Summary: Refined LifePerHunger Costs (2.0 Hunger, 0.5 Thirst).
+- Details:
+  - **Mechanic Update**: Fine-tuned regeneration costs based on user feedback.
+    - **Hunger**: -2.0 per pulse (was 4.0).
+    - **Thirst**: -0.5 per pulse (was 1.0).
+  - **Gates**: Regeneration now requires `Hunger >= 2.0` AND `Thirst >= 0.5`.
+  - **Config**: Updated `HungerConfig.jsonc` comments to accurate reflect the current mechanic.
+- Affected artifacts: HungerLifeSystem.java, HungerConfig.jsonc
+- Verification (build/compile): SUCCESS (Gradle build passing).
+- Status: sealed
+
+## 2026-01-31 (Entry 55)
+
+- Timestamp (America/Monterrey): 2026-01-31 04:20
+- Actor: AI (Antigravity)
+- Type: enhancement
+- Summary: Renamed Thirst command and cleaned up debug logs.
+- Details:
+  - **Command Rename**: Changed `/thirst` to `/aquathirst` to avoid conflicts and improve clarity.
+  - **Cleanup**: Removed rate-limited debug logging from `HungerLifeSystem` as it is no longer needed.
+  - **Code Quality**: Removed unused fields (`debugTimer`) from `HungerLifeSystem`.
+- Affected artifacts: HungerLifeSystem.java, ThirstyCommand.java
+- Verification (build/compile): SUCCESS (Gradle build passing).
+- Status: sealed
+
+## 2026-01-31 (Entry 56)
+
+- Timestamp (America/Monterrey): 2026-01-31 04:30
+- Actor: AI (Antigravity)
+- Type: configuration
+- Summary: Updated ExternalFoodsConfig.json with Andiechef values.
+- Details:
+  - **Configuration**: Populated `ExternalFoodsConfig.json` with specific Hunger/Saturation/Thirst values for `Andiechef` items (Susbhi, Soya, Sake, etc.).
+  - **Correction**: Resolved conflicting values for `Andiechef_Food_Item_Soya` (used Thirst -2.0).
+- Affected artifacts: ExternalFoodsConfig.json
+- Verification (manual): JSON file created.
+- Status: sealed
+
+## 2026-01-31 (Entry 57)
+
+- Timestamp (America/Monterrey): 2026-01-31 04:35
+- Actor: AI (Antigravity)
+- Type: enhancement
+- Summary: Added authors to mod manifest.
+- Details:
+  - **Metadata**: Updated `build.gradle.kts` to include `"Authors": ["jume", "andiemg", "antigravity"]` in the generated `manifest.json`.
+- Affected artifacts: build.gradle.kts
+- Verification (build/compile): SUCCESS (Gradle build passing).
+- Status: sealed
+
+## 2026-01-31 (Entry 58)
+
+- Timestamp (America/Monterrey): 2026-01-31 04:45
+- Actor: AI (Antigravity)
+- Type: enhancement
+- Summary: Added visual icon for Dehydration effect.
+- Details:
+  - **New Asset**: Created `Server/Entity/Effects/Status/Dehydration.json` which applies the `ThirstIcon.png` as a status effect.
+  - **System Update**: Modified `ThirstSystem.java` to apply this non-damaging visual effect when thirst is 0, mirroring the logic for Starvation (but separate from the damage logic).
+  - **Utils**: Added `Dehydration` effect retrieval in `HHMUtils.java`.
+- Affected artifacts: Dehydration.json, ThirstSystem.java, HHMUtils.java
+- Verification (build/compile): SUCCESS (Gradle build passing).
+- Status: sealed
+
+## 2026-01-31 (Entry 59)
+
+- Timestamp (America/Monterrey): 2026-01-31 04:55
+- Actor: AI (Antigravity)
+- Type: bugfix
+- Summary: Proper formatting for Authors in manifest definition.
+- Details:
+  - **Bugfix**: Changed `Authors` field in `build.gradle.kts` from string array `["jume", ...]` to object array `[{ "Name": "jume" }, ...]` to match Hytale's manifest schema and prevent boot crash.
+- Affected artifacts: build.gradle.kts
+- Verification (build/compile): SUCCESS (Gradle build passing).
+- Status: sealed
+
+## 2026-01-31 (Entry 60)
+
+- Timestamp (America/Monterrey): 2026-01-31 05:00
+- Actor: User
+- Type: tuning
+- Summary: Update Starving.json asset.
+- Details:
+  - **Asset Update**: User manually updated `Server/Entity/Effects/Status/Starving.json`.
+  - **Changes**: Set `DamageCalculatorCooldown` to 3.
+- Affected artifacts: Starving.json
+- Verification (build/compile): SUCCESS (Gradle build passing).
+- Status: sealed
+
+## 2026-01-31 (Entry 61)
+
+- Timestamp (America/Monterrey): 2026-01-31 05:05
+- Actor: AI (Antigravity)
+- Type: bugfix
+- Summary: Corrected properites for Dehydration effect asset.
+- Details:
+  - **Asset Fix**: Reset `Dehydration.json` to a minimal configuration containing `Debuff: true` and the icon path. This aims to resolve the issue where the effect was appearing as a buff and ensures no conflicting fields from the previous copy-paste.
+- Affected artifacts: Dehydration.json
+- Verification (build/compile): SUCCESS (Gradle build passing).
+- Status: sealed
+
+## 2026-01-31 (Entry 62)
+
+- Timestamp (America/Monterrey): 2026-01-31 05:15
+- Actor: AI (Antigravity)
+- Type: configuration
+- Summary: Add missing items to ExternalFoodsConfig.
+- Details:
+  - **Correction**: Updated `HHMExternalFoodsConfig.java` to include missing "Andiechef_Yakimeshi..." items and correct specific values for existing items (Nigiri, Onigiri, Rollo, SalsaSoya, Wasabi, Soya_Fermentada) as per user request.
+- Affected artifacts: HHMExternalFoodsConfig.java
+- Verification (build/compile): SUCCESS (Gradle build passing).
+- Status: sealed
+
+## 2026-01-31 (Entry 63)
+
+- Timestamp (America/Monterrey): 2026-01-31 05:25
+- Actor: AI (Antigravity)
+- Type: milestone
+- Summary: Punto de Guardado - Consolidación de Features.
+- Details:
+  - **Mecánicas**: Costes de regeneración ajustados (Hambre 2.0, Sed 0.5).
+  - **Comandos**: `/aquathirst` operativo y limpio de logs.
+  - **Metadatos**: Autores configurados en manifiesto con formato de objeto.
+  - **Visuales**: Icono de deshidratación funcional (Debuff).
+  - **Configuración**: `ExternalFoodsConfig.json` sincronizado con todos los items de Andiechef.
+- Affected artifacts: HungerLifeSystem.java, ThirstyCommand.java, build.gradle.kts, ThirstSystem.java, HHMUtils.java, Dehydration.json, ExternalFoodsConfig.json, HHMExternalFoodsConfig.java
+- Verification (build/compile): SUCCESS (Confirmado por el usuario).
+- Status: active

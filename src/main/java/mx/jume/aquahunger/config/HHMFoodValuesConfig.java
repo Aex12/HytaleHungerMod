@@ -127,4 +127,3 @@ public class HHMFoodValuesConfig {
                 return ignoreCustomAssetValues;
         }
 }
-

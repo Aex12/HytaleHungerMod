@@ -1,0 +1,29 @@
+{
+    // The maximum thirst level a player can have.
+    // Standard full hydration is 100.0.
+    "MaxThirst": 100.0,
+    // The base amount of thirst lost per tick (or update interval).
+    // A higher value means thirst drains faster while standing/walking.
+    "BaseThirstDepletion": 0.05,
+    // Additional thirst depletion multiplier applied when the player is sprinting.
+    // Added to BaseThirstDepletion.
+    "SprintDepletionModifier": 0.1,
+    // The amount of damage taken when thirst reaches 0.
+    // Units: Health points.
+    "DehydrationDamage": 2.0,
+    // How often (in seconds) dehydration damage is applied.
+    // Prevents instant death by spacing out damage ticks.
+    "DamageIntervalSeconds": 4.0,
+    // The position of the Thirst HUD element on the screen.
+    // Valid Values: AboveHotbarCentered, BelowHotbarCentered, AboveHotbarLeft, AboveHotbarRight, BelowHotbarLeft, BelowHotbarRight, BottomLeft, BottomRight, Custom:x:y
+    "HudPosition": "BelowHotbarRight",
+    // If true, thirst is reset to RespawnThirstLevel on death.
+    // If false, the player keeps their previous thirst level (or stays at 0 if died from dehydration).
+    "ResetThirstOnDeath": true,
+    // The thirst level the player respawns with (if ResetThirstOnDeath is true).
+    // Range: 0.0 - MaxThirst
+    "RespawnThirstLevel": 50.0,
+    // Master switch for the Thirst system.
+    // If false, thirst drain, dehydration damage, and the Thirst HUD are completely disabled.
+    "EnableThirst": true
+}

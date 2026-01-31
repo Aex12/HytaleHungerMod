@@ -42,6 +42,11 @@ val generateManifest by tasks.registering {
               "Name": "${rootProject.name}",
               "Version": "${project.version}",
               "Main": "${project.group}.AquaThirstHunger",
+              "Authors": [ 
+                  { "Name": "jume" },
+                  { "Name": "andiemg" },
+                  { "Name": "antigravity" }
+              ],
               "IncludesAssetPack": true
             }
         """.trimIndent()

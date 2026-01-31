@@ -1,0 +1,62 @@
+{
+    "Andiechef_Food_Item_Soya": {
+        "hungerRestoration": 5.0,
+        "maxHungerSaturation": 100.0,
+        "thirstRestoration": -2.0
+    },
+    "Andiechef_Food_Rollo": {
+        "hungerRestoration": 13.0,
+        "maxHungerSaturation": 125.0,
+        "thirstRestoration": 0.0
+    },
+    "Andiechef_Food_Nigiri": {
+        "hungerRestoration": 25.0,
+        "maxHungerSaturation": 165.0,
+        "thirstRestoration": 0.0
+    },
+    "Andiechef_Item_Soya_Fermentada": {
+        "hungerRestoration": 8.0,
+        "maxHungerSaturation": 100.0,
+        "thirstRestoration": 2.0
+    },
+    "Andiechef_Food_Onigiri": {
+        "hungerRestoration": 15.0,
+        "maxHungerSaturation": 155.0,
+        "thirstRestoration": 0.0
+    },
+    "Andiechef_Ingredient_SalsaSoya": {
+        "hungerRestoration": 8.0,
+        "maxHungerSaturation": 110.0,
+        "thirstRestoration": 10.0
+    },
+    "Andiechef_Food_Sake": {
+        "hungerRestoration": 2.0,
+        "maxHungerSaturation": 105.0,
+        "thirstRestoration": 25.0
+    },
+    "Andiechef_Ingredient_Wasabi": {
+        "hungerRestoration": 5.0,
+        "maxHungerSaturation": 100.0,
+        "thirstRestoration": -15.0
+    },
+    "Andiechef_YakimeshiBeef": {
+        "hungerRestoration": 10.0,
+        "maxHungerSaturation": 150.0,
+        "thirstRestoration": 10.0
+    },
+    "Andiechef_YakimeshiChicken": {
+        "hungerRestoration": 11.0,
+        "maxHungerSaturation": 150.0,
+        "thirstRestoration": 10.0
+    },
+    "Andiechef_YakimeshiFish": {
+        "hungerRestoration": 12.0,
+        "maxHungerSaturation": 150.0,
+        "thirstRestoration": 10.0
+    },
+    "Andiechef_YakimeshiPork": {
+        "hungerRestoration": 9.0,
+        "maxHungerSaturation": 150.0,
+        "thirstRestoration": 10.0
+    }
+}

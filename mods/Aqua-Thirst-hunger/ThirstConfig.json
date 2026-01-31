@@ -1,0 +1,11 @@
+{
+    "MaxThirst": 100.0,
+    "BaseThirstDepletion": 0.05,
+    "SprintDepletionModifier": 0.1,
+    "DehydrationDamage": 2.0,
+    "DamageIntervalSeconds": 4.0,
+    "HudPosition": "BelowHotbarRight",
+    "ResetThirstOnDeath": true,
+    "RespawnThirstLevel": 50.0,
+    "EnableThirst": true
+}

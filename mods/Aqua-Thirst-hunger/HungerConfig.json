@@ -1,0 +1,11 @@
+{
+    "InitialHungerLevel": 70.0,
+    "RespawnHungerLevel": 50.0,
+    "StarvationStaminaModifier": 0.175,
+    "HungryThreshold": 20.0,
+    "StarvationDamage": 5.0,
+    "HudPosition": "BelowHotbarLeft",
+    "SinglePlayer": true,
+    "EnableHunger": true,
+    "LifePerHunger": true
+}

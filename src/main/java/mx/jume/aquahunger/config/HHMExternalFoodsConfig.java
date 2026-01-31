@@ -68,14 +68,20 @@ public class HHMExternalFoodsConfig {
         // Soya Sauce context implies salty or liquid? Assume liquid-ish but minimal
         // thirst interaction for food.
         // Sake is a drink -> Higher thirst restoration
-        addDefault("Andiechef_Food_Item_Soya", 5f, 120f, 0f);
-        addDefault("Andiechef_Food_Nigiri", 8f, 145f, 0f);
-        addDefault("Andiechef_Food_Onigiri", 10f, 155f, 0f);
-        addDefault("Andiechef_Food_Rollo", 13f, 175f, 0f);
-        addDefault("Andiechef_Food_Sake", 2f, 105f, 25f); // DRINK
-        addDefault("Andiechef_Ingredient_SalsaSoya", 2f, 110f, 0f);
-        addDefault("Andiechef_Ingredient_Wasabi", 1f, 100f, -5f); // Spicy -> Dehydrates
-        addDefault("Andiechef_Item_Soya_Fermentada", 11f, 165f, 0f);
+        addDefault("Andiechef_Food_Item_Soya", 5f, 100f, -2f);
+        addDefault("Andiechef_Food_Nigiri", 25f, 165f, 0f); // CORRECTED from user list (previous was 8)
+        addDefault("Andiechef_Food_Onigiri", 15f, 155f, 0f); // CORRECTED from user list (previous was 10)
+        addDefault("Andiechef_Food_Rollo", 13f, 125f, 0f); // CORRECTED saturation (previous was 175)
+        addDefault("Andiechef_Food_Sake", 2f, 105f, 25f);
+        addDefault("Andiechef_Ingredient_SalsaSoya", 8f, 110f, 10f); // CORRECTED: User said thirst 10, hunger 8
+        addDefault("Andiechef_Ingredient_Wasabi", 5f, 100f, -15f); // CORRECTED: User said thirst -15, hunger 5
+        addDefault("Andiechef_Item_Soya_Fermentada", 11f, 165f, 2f); // CORRECTED: Thirst 2
+
+        // ADDED MISSING ITEMS from User's ExternalFoodsConfig.json content
+        addDefault("Andiechef_YakimeshiBeef", 10f, 150f, 10f);
+        addDefault("Andiechef_YakimeshiChicken", 11f, 150f, 10f);
+        addDefault("Andiechef_YakimeshiFish", 12f, 150f, 10f);
+        addDefault("Andiechef_YakimeshiPork", 9f, 150f, 10f);
 
         save();
     }

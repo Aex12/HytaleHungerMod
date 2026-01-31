@@ -75,6 +75,24 @@ public class HHMUtils {
         return poisonEntityEffect;
     }
 
+    private static EntityEffect dehydrationEntityEffect;
+    public static final String dehydrationEntityEffectId = "Dehydration";
+
+    public static EntityEffect getDehydrationEntityEffect() {
+        if (dehydrationEntityEffect == null) {
+            dehydrationEntityEffect = EntityEffect.getAssetMap().getAsset(dehydrationEntityEffectId);
+            if (dehydrationEntityEffect == null) {
+                // Warning logged only once if needed, or rely on null check in caller
+                AquaThirstHunger.logInfo("Dehydration effect asset not found.");
+            }
+        }
+        return dehydrationEntityEffect;
+    }
+
+    public static boolean activeEntityEffectIsDehydration(ActiveEntityEffect effect) {
+        return activeEntityEffectIs(effect, dehydrationEntityEffectId);
+    }
+
     public static boolean activeEntityEffectIs(ActiveEntityEffect effect, String entityEffectId) {
         try {
             Field f = ActiveEntityEffect.class.getDeclaredField("entityEffectId");

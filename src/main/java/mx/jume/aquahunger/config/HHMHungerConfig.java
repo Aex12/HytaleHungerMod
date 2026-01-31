@@ -56,6 +56,14 @@ public class HHMHungerConfig {
                     ((config, value) -> config.singlePlayer = value),
                     (config) -> config.singlePlayer)
             .add()
+            .append(new KeyedCodec<>("EnableHunger", Codec.BOOLEAN),
+                    ((config, value) -> config.enableHunger = value),
+                    HHMHungerConfig::isEnableHunger)
+            .add()
+            .append(new KeyedCodec<>("LifePerHunger", Codec.BOOLEAN),
+                    ((config, value) -> config.lifePerHunger = value),
+                    HHMHungerConfig::isLifePerHunger)
+            .add()
             .build();
 
     private float initialHungerLevel = 200.0f;
@@ -67,8 +75,10 @@ public class HHMHungerConfig {
     private float starvationStaminaModifier = 0.175f;
     private float hungryThreshold = 20.0f;
     private float starvationDamage = 5.0f;
-    private HudPosition hudPosition = HudPosition.pluginDefault();
+    private HudPosition hudPosition = HudPosition.Preset.BelowHotbarLeft;
     private boolean singlePlayer = true;
+    private boolean enableHunger = true;
+    private boolean lifePerHunger = true;
 
     public float getInitialHungerLevel() {
         return initialHungerLevel;
@@ -76,6 +86,10 @@ public class HHMHungerConfig {
 
     public float getRespawnHungerLevel() {
         return respawnHungerLevel;
+    }
+
+    public boolean isLifePerHunger() {
+        return lifePerHunger;
     }
 
     public boolean isResetHungerOnDeath() {
@@ -116,5 +130,9 @@ public class HHMHungerConfig {
 
     public boolean isSinglePlayer() {
         return this.singlePlayer;
+    }
+
+    public boolean isEnableHunger() {
+        return enableHunger;
     }
 }

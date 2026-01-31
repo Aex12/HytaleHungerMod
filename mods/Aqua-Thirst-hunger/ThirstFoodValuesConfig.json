@@ -1,0 +1,16 @@
+{
+    "ResultResourceTypeId": "Fruit",
+    "FruitMultiplier": 5.0,
+    "TierThirstRestoration": {
+        "Common": 5.5,
+        "Uncommon": 6.5,
+        "Rare": 7.0,
+        "Epic": 7.5,
+        "Legendary": 8.0,
+        "Mythic": 9.5,
+        "Unique": 10.0
+    },
+    "ItemThirstRestoration": {
+        "AquaThirstHunger_Canteen": 10.0
+    }
+}

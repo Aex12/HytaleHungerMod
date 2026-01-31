@@ -1,0 +1,30 @@
+{
+    // The amount of hunger a player starts with when joining for the first time.
+    // Range: 0.0 - 100.0
+    "InitialHungerLevel": 70.0,
+    // The amount of hunger a player has after respawning.
+    // Range: 0.0 - 100.0
+    "RespawnHungerLevel": 50.0,
+    // Modifies stamina consumption/regeneration when starving.
+    // Internal multiplier value.
+    "StarvationStaminaModifier": 0.175,
+    // The hunger level at or below which the player is considered "Hungry".
+    // Triggers visual warnings (e.g., HUD shake).
+    // Range: 0.0 - 100.0
+    "HungryThreshold": 20.0,
+    // The amount of damage applied to the player per tick/interval when hunger is 0.
+    // Units: Health points.
+    "StarvationDamage": 5.0,
+    // The position of the Hunger HUD element on the screen.
+    // Valid Values: AboveHotbarCentered, BelowHotbarCentered, AboveHotbarLeft, AboveHotbarRight, BelowHotbarLeft, BelowHotbarRight, BottomLeft, BottomRight, Custom:x:y
+    "HudPosition": "BelowHotbarLeft",
+    // Optimizes logic for single-player specific behavior if true.
+    // e.g., may affect pausing behavior or client-side prediction.
+    "SinglePlayer": true,
+    // Master switch for the Hunger system.
+    // If false, hunger drain, starvation damage, and the Hunger HUD are completely disabled.
+    "EnableHunger": true,
+    // When enabled, regenerates health by consuming hunger over time.
+    // Every 2 seconds: +1 health costs -2 hunger (drains saturation first) and -0.5 thirst; stops at full health or when resources are insufficient.
+    "LifePerHunger": true
+}

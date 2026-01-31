@@ -81,13 +81,20 @@ public class ConfigManager {
 
         // 2. Commit
         this.hungerConfig = newHungerConfig;
-        this.thirstConfig = newThirstConfig;
-        this.foodValuesConfig = newFoodValuesConfig;
-        this.thirstFoodValuesConfig = newThirstFoodValuesConfig;
-        this.externalFoodsConfig = newExternalFoodsConfig;
+        AquaThirstHunger.logInfo("Reloaded HungerConfig. LifePerHunger=" + this.hungerConfig.isLifePerHunger());
 
-        // 3. Post-load initialization
-        this.thirstFoodValuesConfig.ensureDefaults();
+        this.thirstConfig = newThirstConfig;
+        AquaThirstHunger.logInfo("Reloaded ThirstConfig.");
+
+        this.foodValuesConfig = newFoodValuesConfig;
+        AquaThirstHunger.logInfo("Reloaded FoodValuesConfig.");
+
+        this.thirstFoodValuesConfig = newThirstFoodValuesConfig;
+        this.thirstFoodValuesConfig.ensureDefaults(); // Ensure defaults post-reload
+        AquaThirstHunger.logInfo("Reloaded ThirstFoodValuesConfig.");
+
+        this.externalFoodsConfig = newExternalFoodsConfig;
+        AquaThirstHunger.logInfo("Reloaded ExternalFoodsConfig.");
 
         // 4. Save to ensure consistency
         save();

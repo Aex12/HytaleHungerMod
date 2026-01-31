@@ -65,6 +65,7 @@ public class AquaThirstHunger extends JavaPlugin {
         entityStoreRegistry.registerSystem(mx.jume.aquahunger.systems.ThirstSystem.create());
         entityStoreRegistry.registerSystem(new OnBlockHitSystem());
         entityStoreRegistry.registerSystem(new OnDeathSystem());
+        entityStoreRegistry.registerSystem(new mx.jume.aquahunger.systems.HungerLifeSystem());
 
         // register feed interaction
         final var interactionRegistry = this.getCodecRegistry(Interaction.CODEC);

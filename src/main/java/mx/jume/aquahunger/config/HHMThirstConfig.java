@@ -51,6 +51,10 @@ public class HHMThirstConfig {
                     ((config, value) -> config.respawnThirstLevel = value),
                     HHMThirstConfig::getRespawnThirstLevel)
             .add()
+            .append(new KeyedCodec<>("EnableThirst", Codec.BOOLEAN),
+                    ((config, value) -> config.enableThirst = value),
+                    HHMThirstConfig::isEnableThirst)
+            .add()
             .build();
 
     private float maxThirst = 100.0f;
@@ -60,9 +64,10 @@ public class HHMThirstConfig {
     private float sprintDepletionModifier = 0.1f;
     private float dehydrationDamage = 2.0f;
     private float damageIntervalSeconds = 4.0f;
-    private HudPosition hudPosition = HudPosition.Preset.AboveHotbarRight;
+    private HudPosition hudPosition = HudPosition.Preset.BelowHotbarRight;
     private boolean resetThirstOnDeath = true;
     private float respawnThirstLevel = 50.0f;
+    private boolean enableThirst = true;
 
     public float getMaxThirst() {
         return maxThirst;
@@ -106,5 +111,9 @@ public class HHMThirstConfig {
 
     public float getRespawnThirstLevel() {
         return respawnThirstLevel;
+    }
+
+    public boolean isEnableThirst() {
+        return enableThirst;
     }
 }

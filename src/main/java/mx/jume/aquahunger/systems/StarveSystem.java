@@ -31,7 +31,7 @@ public class StarveSystem extends EntityTickingSystem<EntityStore> {
         this.config = config;
     }
 
-    public static StarveSystem create () {
+    public static StarveSystem create() {
         HHMHungerConfig config = AquaThirstHunger.get().getHungerConfig();
         return new StarveSystem(config);
     }
@@ -46,29 +46,35 @@ public class StarveSystem extends EntityTickingSystem<EntityStore> {
     @Override
     public Query<EntityStore> getQuery() {
         return Query.and(
-            HungerComponent.getComponentType(),
-            EntityStatMap.getComponentType(),
-            PlayerRef.getComponentType(),
-            Query.not(DeathComponent.getComponentType()),
-            Query.not(Invulnerable.getComponentType())
-        );
+                HungerComponent.getComponentType(),
+                EntityStatMap.getComponentType(),
+                PlayerRef.getComponentType(),
+                Query.not(DeathComponent.getComponentType()),
+                Query.not(Invulnerable.getComponentType()));
     }
 
     @Override
     public void tick(
-        float dt,
-        int index,
-        @NonNullDecl ArchetypeChunk<EntityStore> archetypeChunk,
-        @NonNullDecl Store<EntityStore> store,
-        @NonNullDecl CommandBuffer<EntityStore> commandBuffer
-    ) {
+            float dt,
+            int index,
+            @NonNullDecl ArchetypeChunk<EntityStore> archetypeChunk,
+            @NonNullDecl Store<EntityStore> store,
+            @NonNullDecl CommandBuffer<EntityStore> commandBuffer) {
         HungerComponent hunger = archetypeChunk.getComponent(index, HungerComponent.getComponentType());
         EntityStatMap entityStatMap = archetypeChunk.getComponent(index, EntityStatMap.getComponentType());
-        if (hunger == null || entityStatMap == null) return;
+        if (hunger == null || entityStatMap == null)
+            return;
+
+        if (!this.config.isEnableHunger()) {
+            // If hunger is disabled, ensure HUD is cleaned up or just don't run logic.
+            // HUD hiding is handled by HHMHud check, but we should stop processing here.
+            return;
+        }
 
         hunger.setStaminaSeen(getStaminaValue(entityStatMap));
         hunger.addElapsedTime(dt);
-        if (hunger.getElapsedTime() < this.config.getStarvationTickRate()) return;
+        if (hunger.getElapsedTime() < this.config.getStarvationTickRate())
+            return;
         hunger.resetElapsedTime();
 
         float lowestStaminaSeen = hunger.getAndResetLowestStaminaSeen();
@@ -83,8 +89,10 @@ public class StarveSystem extends EntityTickingSystem<EntityStore> {
 
         // Apply hungry effect when hunger level is below 20
         if (hungerLevel != 0 && hungerLevel < this.config.getHungryThreshold()) {
-            EffectControllerComponent effectController = commandBuffer.getComponent(ref, EffectControllerComponent.getComponentType());
-            if (effectController == null) return;
+            EffectControllerComponent effectController = commandBuffer.getComponent(ref,
+                    EffectControllerComponent.getComponentType());
+            if (effectController == null)
+                return;
             // apply hungry effect
             EntityEffect hungryEffect = HHMUtils.getHungryEntityEffect();
             effectController.addEffect(ref, hungryEffect, commandBuffer);
@@ -92,34 +100,41 @@ public class StarveSystem extends EntityTickingSystem<EntityStore> {
 
         // Apply starvation effect when hunger level reaches 0
         if (hungerLevel == 0) {
-            EffectControllerComponent effectController = commandBuffer.getComponent(ref, EffectControllerComponent.getComponentType());
-            if (effectController == null) return;
+            EffectControllerComponent effectController = commandBuffer.getComponent(ref,
+                    EffectControllerComponent.getComponentType());
+            if (effectController == null)
+                return;
             // remove all buffs when starving
-            HHMUtils.removeActiveEffects(ref, commandBuffer, effectController, StarveSystem::shouldRemoveEffectOnStarvation);
+            HHMUtils.removeActiveEffects(ref, commandBuffer, effectController,
+                    StarveSystem::shouldRemoveEffectOnStarvation);
             // apply starving effect
             EntityEffect starvingEffect = HHMUtils.getStarvingEntityEffect();
             effectController.addEffect(ref, starvingEffect, commandBuffer);
             // apply starvation damage
-            Damage damage = new Damage(Damage.NULL_SOURCE, HHMUtils.getStarvationDamageCause(), this.config.getStarvationDamage());
+            Damage damage = new Damage(Damage.NULL_SOURCE, HHMUtils.getStarvationDamageCause(),
+                    this.config.getStarvationDamage());
             DamageSystems.executeDamage(ref, commandBuffer, damage);
         }
 
         PlayerRef playerRef = archetypeChunk.getComponent(index, PlayerRef.getComponentType());
-        if (playerRef == null) return;
+        if (playerRef == null)
+            return;
         HHMHud.updatePlayerHungerLevel(playerRef, hungerLevel);
     }
 
-    public static boolean shouldRemoveEffectOnStarvation (ActiveEntityEffect effect) {
-        if (HHMUtils.activeEntityEffectIsHungry(effect)) return true;
-        if (effect.isInfinite()) return false;
+    public static boolean shouldRemoveEffectOnStarvation(ActiveEntityEffect effect) {
+        if (HHMUtils.activeEntityEffectIsHungry(effect))
+            return true;
+        if (effect.isInfinite())
+            return false;
         return !effect.isDebuff();
     }
 
     public static float getStaminaValue(@NonNullDecl EntityStatMap entityStatMap) {
         final int staminaRef = DefaultEntityStatTypes.getStamina();
         final EntityStatValue statValue = entityStatMap.get(staminaRef);
-        if (statValue == null) return 10.0f; // Default stamina (max) value if not found
+        if (statValue == null)
+            return 10.0f; // Default stamina (max) value if not found
         return statValue.get();
     }
 }
-

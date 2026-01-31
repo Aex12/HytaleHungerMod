@@ -14,7 +14,7 @@ public class ThirstyCommand extends AbstractPlayerCommand {
     public static final String requiredPermission = "hungry.thirst.base";
 
     public ThirstyCommand() {
-        super("thirst", "Thirst Command", false);
+        super("aquathirst", "Thirst Command", false);
         this.addSubCommand(new SetThirstCommand());
         this.requirePermission(requiredPermission);
     }
@@ -22,9 +22,9 @@ public class ThirstyCommand extends AbstractPlayerCommand {
     static String helpMessageBase = """
             Thirst commands
 
-            /thirst - Show this help message.""";
-    static String helpMessageSetSelf = "/thirst set <thirstLevel> - Set your own thirst level (0-100).";
-    static String helpMessageSetOther = "/thirst set <player> <thirstLevel> - Set another player's thirst level (0-100).";
+            /aquathirst - Show this help message.""";
+    static String helpMessageSetSelf = "/aquathirst set <thirstLevel> - Set your own thirst level (0-100).";
+    static String helpMessageSetOther = "/aquathirst set <player> <thirstLevel> - Set another player's thirst level (0-100).";
 
     @Override
     protected void execute(

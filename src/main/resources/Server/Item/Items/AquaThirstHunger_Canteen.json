@@ -30,12 +30,11 @@
       }
     ]
   },
-  "Icon": "Icons/ItemsGenerated/AquaThirstHunger_Canteen.png",
   "IconProperties": {
     "Scale": 0.7,
     "Rotation": [
       22.5,
-      45,
+      97,
       22.5
     ],
     "Translation": [
@@ -64,12 +63,21 @@
       "Interactions": [
         {
           "Type": "ApplyEffect",
-          "EffectId": "Food_Instant_Heal_T1"
+          "EffectId": {
+            "StatusEffectIcon": "Resourses/Thirst.png"
+          }
         }
       ]
     },
     "ConsumeSFX": {
-      "Interactions": []
+      "Interactions": [
+        {
+          "Parent": "Consume_SFX",
+          "Effects": {
+            "LocalSoundEventId": "SFX_Health_Potion_Low_Drink"
+          }
+        }
+      ]
     }
   },
   "TranslationProperties": {
@@ -78,5 +86,7 @@
   },
   "Scale": 1.3,
   "MaxStack": 20,
-  "ItemLevel": 0
+  "ItemLevel": 0,
+  "Consumable": true,
+  "Icon": "Icons/ItemsGenerated/AquaThirstHunger_Canteen.png"
 }

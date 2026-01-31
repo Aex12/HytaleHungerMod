@@ -1,0 +1,24 @@
+{
+    "IgnoreInteractionValues": false,
+    "IgnoreCustomAssetValues": false,
+    "TierHungerRestoration": {
+        "Common": 3.75,
+        "Uncommon": 6.25,
+        "Rare": 11.25,
+        "Epic": 17.5,
+        "Legendary": 25.0,
+        "Mythic": 35.0,
+        "Unique": 47.5
+    },
+    "TierMaxHungerSaturation": {
+        "Common": 0.0,
+        "Uncommon": 3.75,
+        "Rare": 7.5,
+        "Epic": 11.25,
+        "Legendary": 16.25,
+        "Mythic": 20.0,
+        "Unique": 25.0
+    },
+    "ItemHungerRestoration": {},
+    "ItemMaxHungerSaturation": {}
+}

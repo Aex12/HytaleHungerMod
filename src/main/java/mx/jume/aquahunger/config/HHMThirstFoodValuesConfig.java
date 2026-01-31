@@ -39,13 +39,13 @@ public class HHMThirstFoodValuesConfig {
     private Map<String, Float> itemThirstRestoration = new HashMap<>();
 
     public HHMThirstFoodValuesConfig() {
-        tierThirstRestoration.put(ItemTier.Common, 0.0f);
-        tierThirstRestoration.put(ItemTier.Uncommon, 0.75f);
-        tierThirstRestoration.put(ItemTier.Rare, 1.5f);
-        tierThirstRestoration.put(ItemTier.Epic, 2.25f);
-        tierThirstRestoration.put(ItemTier.Legendary, 3.0f);
-        tierThirstRestoration.put(ItemTier.Mythic, 4.0f);
-        tierThirstRestoration.put(ItemTier.Unique, 5.0f);
+        tierThirstRestoration.put(ItemTier.Common, 5.5f);
+        tierThirstRestoration.put(ItemTier.Uncommon, 6.5f);
+        tierThirstRestoration.put(ItemTier.Rare, 7.0f);
+        tierThirstRestoration.put(ItemTier.Epic, 7.5f);
+        tierThirstRestoration.put(ItemTier.Legendary, 8.0f);
+        tierThirstRestoration.put(ItemTier.Mythic, 9.5f);
+        tierThirstRestoration.put(ItemTier.Unique, 10.0f);
         itemThirstRestoration.put("AquaThirstHunger_Canteen", 10.0f);
     }
 

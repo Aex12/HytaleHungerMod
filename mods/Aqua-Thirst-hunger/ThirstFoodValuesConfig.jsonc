@@ -1,0 +1,26 @@
+{
+    // The resource type ID used to identify items as "Fruit".
+    // Items with this resource type will have thirst restoration applied (Tier Value * FruitMultiplier).
+    "ResultResourceTypeId": "Fruit",
+    // Multiplier applied to the base Tier Thirst Restoration for items identified as Fruit.
+    // Formula: Final Restoration = TierValue * FruitMultiplier
+    "FruitMultiplier": 5.0,
+    // Default Thirst Restoration values for items based on their Rarity Tier.
+    // These values are used if no specific Item override is found.
+    // Units: Thirst points restored.
+    "TierThirstRestoration": {
+        "Common": 5.5,
+        "Uncommon": 6.5,
+        "Rare": 7.0,
+        "Epic": 7.5,
+        "Legendary": 8.0,
+        "Mythic": 9.5,
+        "Unique": 10.0
+    },
+    // Specific overrides for individual items by their String ID.
+    // Key: Item ID (e.g., "hytale:water_bottle"), Value: Thirst Restoration points.
+    // Note: "AquaThirstHunger_Canteen" is included by default.
+    "ItemThirstRestoration": {
+        "AquaThirstHunger_Canteen": 10.0
+    }
+}
